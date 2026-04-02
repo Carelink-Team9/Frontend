@@ -184,21 +184,23 @@ function HospitalCard({ hospital: h }: { hospital: Hospital }) {
         </Typography>
       </div>
 
-      {/* 전화 + 홈페이지 */}
-      <div className="flex items-center justify-between mt-2">
-        {h.phone ? (
-          <a href={`tel:${h.phone}`} className="flex items-center gap-1 text-blue-600 hover:underline">
-            <PhoneIcon fontSize="small" />
-            <Typography variant="body2">{h.phone}</Typography>
+      {/* 전화 */}
+      {h.phone && (
+        <a href={`tel:${h.phone}`} className="flex items-center gap-1 mt-2 text-blue-600 hover:underline w-fit">
+          <PhoneIcon fontSize="small" />
+          <Typography variant="body2">{h.phone}</Typography>
+        </a>
+      )}
+
+      {/* 홈페이지 */}
+      <div className="flex items-center gap-1 mt-1">
+        <OpenInNewIcon fontSize="small" className="text-gray-400 shrink-0" />
+        {h.homepage ? (
+          <a href={h.homepage} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate">
+            <Typography variant="body2">{h.homepage}</Typography>
           </a>
         ) : (
-          <span />
-        )}
-        {h.homepage && (
-          <a href={h.homepage} target="_blank" rel="noopener noreferrer" className="flex items-center gap-0.5 text-gray-500 hover:text-gray-700">
-            <OpenInNewIcon fontSize="small" />
-            <Typography variant="body2">{t('homepage')}</Typography>
-          </a>
+          <Typography variant="body2" color="text.disabled">정보 없음</Typography>
         )}
       </div>
     </div>
