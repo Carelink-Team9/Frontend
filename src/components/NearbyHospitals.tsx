@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   CircularProgress,
   Alert,
@@ -8,6 +9,9 @@ import {
   InputAdornment,
   TextField,
   Typography,
+  Select,
+  MenuItem,
+  FormControl,
 } from '@mui/material';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -23,6 +27,7 @@ const RADIUS_KM = 5;
 const LIMIT = 20;
 
 export default function NearbyHospitals() {
+  const { t, i18n } = useTranslation();
   const { lat, lng, error: geoError, loading: geoLoading } = useGeolocation();
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
   const [filtered, setFiltered] = useState<Hospital[]>([]);
@@ -40,7 +45,7 @@ export default function NearbyHospitals() {
         setHospitals(data);
         setFiltered(data);
       })
-      .catch(() => setFetchError('병원 데이터를 불러오는 데 실패했습니다.'))
+      .catch(() => setFetchError(t('load_failed')))
       .finally(() => setFetching(false));
   }, [lat, lng, refreshKey]);
 
@@ -55,7 +60,7 @@ export default function NearbyHospitals() {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-4">
         <CircularProgress size={48} />
-        <Typography color="text.secondary">현재 위치를 확인하는 중...</Typography>
+        <Typography color="text.secondary">{t('checking_location')}</Typography>
       </div>
     );
   }
@@ -74,22 +79,38 @@ export default function NearbyHospitals() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <Typography variant="h5" fontWeight={700}>
-            내 근처 병원
+            {t('nearby_hospitals')}
           </Typography>
           <Typography variant="body2" color="text.secondary" className="mt-1">
-            반경 {RADIUS_KM}km · 최대 {LIMIT}개
+            {t('radius_limit', { radius: RADIUS_KM, limit: LIMIT })}
           </Typography>
         </div>
-        <IconButton onClick={() => setRefreshKey((k) => k + 1)} title="새로고침">
-          <RefreshIcon />
-        </IconButton>
+        <div className="flex items-center gap-2">
+          <FormControl size="small">
+            <Select
+              value={i18n.language.split('-')[0]}
+              onChange={(e) => i18n.changeLanguage(e.target.value)}
+              sx={{ minWidth: 100 }}
+            >
+              <MenuItem value="ko">한국어</MenuItem>
+              <MenuItem value="en">English</MenuItem>
+              <MenuItem value="vi">Tiếng Việt</MenuItem>
+              <MenuItem value="uz">O'zbek</MenuItem>
+              <MenuItem value="zh">中文</MenuItem>
+              <MenuItem value="th">ภาษาไทย</MenuItem>
+            </Select>
+          </FormControl>
+          <IconButton onClick={() => setRefreshKey((k) => k + 1)} title={t('refresh')}>
+            <RefreshIcon />
+          </IconButton>
+        </div>
       </div>
 
       {/* 검색 */}
       <TextField
         fullWidth
         size="small"
-        placeholder="병원명 또는 주소 검색"
+        placeholder={t('search_placeholder')}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         InputProps={{
@@ -111,7 +132,7 @@ export default function NearbyHospitals() {
       )}
       {fetchError && <Alert severity="error">{fetchError}</Alert>}
       {!fetching && !fetchError && filtered.length === 0 && (
-        <Alert severity="info">주변 {RADIUS_KM}km 내 검색된 병원이 없습니다.</Alert>
+        <Alert severity="info">{t('no_hospitals', { radius: RADIUS_KM })}</Alert>
       )}
 
       {/* 병원 카드 목록 */}
@@ -127,6 +148,7 @@ export default function NearbyHospitals() {
 }
 
 function HospitalCard({ hospital: h }: { hospital: Hospital }) {
+  const { t } = useTranslation();
   return (
     <div className="rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow p-4">
       {/* 이름 + 거리 */}
@@ -138,7 +160,7 @@ function HospitalCard({ hospital: h }: { hospital: Hospital }) {
           </Typography>
         </div>
         <Chip
-          label={`${h.distanceKm} km`}
+          label={t('distance', { dist: h.distanceKm })}
           size="small"
           color="primary"
           variant="outlined"
@@ -174,7 +196,7 @@ function HospitalCard({ hospital: h }: { hospital: Hospital }) {
         {h.homepage && (
           <a href={h.homepage} target="_blank" rel="noopener noreferrer" className="flex items-center gap-0.5 text-gray-500 hover:text-gray-700">
             <OpenInNewIcon fontSize="small" />
-            <Typography variant="body2">홈페이지</Typography>
+            <Typography variant="body2">{t('homepage')}</Typography>
           </a>
         )}
       </div>
