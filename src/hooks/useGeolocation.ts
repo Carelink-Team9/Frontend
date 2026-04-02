@@ -29,6 +29,8 @@ export function useGeolocation(): GeolocationState {
           error: null,
           loading: false,
         });
+
+        console.log('GPS 좌표:', pos.coords.latitude, pos.coords.longitude);
       },
       (err) => {
         let message: string;

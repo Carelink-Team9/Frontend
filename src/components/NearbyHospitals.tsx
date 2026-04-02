@@ -42,6 +42,7 @@ export default function NearbyHospitals() {
     setFetchError(null);
     fetchNearbyHospitals(lat, lng, RADIUS_KM, LIMIT)
       .then((data) => {
+        console.log('병원 목록:', data);
         setHospitals(data);
         setFiltered(data);
       })
