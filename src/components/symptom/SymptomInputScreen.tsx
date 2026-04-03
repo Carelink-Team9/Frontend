@@ -63,19 +63,19 @@ export default function SymptomInputScreen() {
         <div className="flex flex-1 flex-col overflow-y-auto">
 
           {/* Greeting */}
-          <div className="px-[32px] pt-[30px] pb-[24px]">
-            <p className="text-left text-[28px] font-medium tracking-[-1.4px] text-[#111827]">어떤 증상이 있으신가요?</p>
-            <p className="mt-[8px] text-left text-[14px] font-medium tracking-[-0.7px] text-[#6b7280]">증상을 입력하거나 아래에서 선택해보세요.</p>
+          <div className="flex flex-col items-start text-left px-[32px] pt-[30px] pb-[24px] gap-[12px]">
+            <p className="text-[28px] font-medium leading-none tracking-[-1.4px] text-[#111827]">어떤 증상이 있으신가요?</p>
+            <p className="text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6b7280]">증상을 입력하거나 아래에서 선택해보세요.</p>
           </div>
 
           {/* Gray divider */}
           <div className="h-[20px] bg-[#f9f9fb]" />
 
           {/* 선택한 증상 */}
-          <div className="px-[32px] pt-[20px] pb-[20px]">
-            <p className="mb-[14px] text-[18px] font-medium tracking-[-0.9px] text-black">선택한 증상</p>
+          <div className="flex flex-col items-start text-left px-[32px] pt-[20px] pb-[20px] w-full">
+            <p className="mb-[12px] text-[18px] font-medium tracking-[-0.9px] text-[#111827]">선택한 증상</p>
             {selected.length > 0 ? (
-              <div className="flex flex-wrap gap-[10px]">
+              <div className="flex flex-wrap gap-[10px] w-full justify-start">
                 {selected.map((s) => (
                   <div
                     key={s}
@@ -89,7 +89,7 @@ export default function SymptomInputScreen() {
                 ))}
               </div>
             ) : (
-              <p className="text-[14px] text-[#d1d5db]">아직 선택된 증상이 없어요.</p>
+              <p className="text-[14px] font-medium leading-[1.5] text-[#d1d5db]">아직 선택된 증상이 없어요.</p>
             )}
           </div>
 
@@ -145,17 +145,17 @@ export default function SymptomInputScreen() {
           <div className="h-[20px] bg-[#f9f9fb]" />
 
           {/* 증상 검색하기 */}
-          <div className="px-[32px] pt-[20px] pb-[20px]">
-            <p className="mb-[8px] text-[18px] font-medium tracking-[-0.9px] text-black">증상 검색하기</p>
-            <p className="mb-[16px] text-[14px] font-medium tracking-[-0.7px] text-[#6b7280]">증상을 검색하시거나 직접 추가해보세요.</p>
-            <div className="relative flex h-[52px] items-center rounded-[8px] bg-[#f3f4f6] shadow-[inset_0px_0px_10px_0px_rgba(0,0,0,0.02)]">
+          <div className="flex flex-col items-start text-left px-[32px] pt-[20px] pb-[20px] w-full gap-[12px]">
+            <p className="text-[18px] font-medium leading-none tracking-[-0.9px] text-[#111827]">증상 검색하기</p>
+            <p className="mb-[4px] text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6b7280]">증상을 검색하시거나 직접 추가해보세요.</p>
+            <div className="relative flex h-[52px] w-full items-center rounded-[8px] bg-[#f3f4f6] shadow-[inset_0px_0px_10px_0px_rgba(0,0,0,0.02)]">
               <img src={imgIcon} alt="" className="ml-[20px] h-[20px] w-[20px] shrink-0" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="증상 검색"
-                className="ml-[12px] flex-1 bg-transparent text-[16px] font-medium tracking-[-0.8px] text-[#111827] outline-none placeholder:text-[#d1d5db]"
+                className="ml-[12px] flex-1 w-full bg-transparent text-[16px] font-medium tracking-[-0.8px] text-[#111827] outline-none placeholder:text-[#d1d5db]"
               />
             </div>
 

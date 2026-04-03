@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
+const imgArrowLine = 'https://www.figma.com/api/mcp/asset/a39ec05c-7115-4399-a7ea-dac6482fac05';
+
 export default function MyPageScreen() {
   const navigate = useNavigate();
   const { logout } = useAuth();
@@ -10,16 +12,15 @@ export default function MyPageScreen() {
       <div className="flex h-svh w-full max-w-[402px] flex-col bg-white">
         {/* Header */}
         <header className="relative flex h-[70px] shrink-0 items-center justify-center border-b border-[#d1d5db] bg-white px-[32px]">
-          <span className="text-[20px] font-medium tracking-[-1px] text-[#111827]">마이페이지</span>
           <button
             type="button"
-            onClick={() => navigate('/')}
-            className="absolute right-[32px] text-[#296dff]"
-            aria-label="로홈으로 되돌아가기"
+            onClick={() => navigate(-1)}
+            className="absolute left-[32px]"
+            aria-label="뒤로가기"
           >
-            {/* The user specifically asked for a '<' like emoji on the top right */}
-            <span className="text-[24px] font-bold">&lt;</span>
+            <img src={imgArrowLine} alt="" className="h-[16px] w-[16px]" />
           </button>
+          <span className="text-[20px] font-medium tracking-[-1px] text-[#111827]">마이페이지</span>
         </header>
 
         {/* Content */}

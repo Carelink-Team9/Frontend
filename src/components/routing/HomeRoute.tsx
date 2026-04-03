@@ -8,12 +8,19 @@ const SPLASH_DURATION_MS = 1800;
 
 export default function HomeRoute() {
   const { isLoggedIn, login } = useAuth();
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(() => {
+    return !sessionStorage.getItem('splashShown');
+  });
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), SPLASH_DURATION_MS);
-    return () => clearTimeout(timer);
-  }, []);
+    if (showSplash) {
+      const timer = setTimeout(() => {
+        setShowSplash(false);
+        sessionStorage.setItem('splashShown', 'true');
+      }, SPLASH_DURATION_MS);
+      return () => clearTimeout(timer);
+    }
+  }, [showSplash]);
 
   if (showSplash) return <SplashScreen />;
   if (!isLoggedIn) return <LanguageSelectScreen onComplete={login} />;
