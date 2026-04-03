@@ -1,33 +1,32 @@
 import { Link } from 'react-router-dom';
+import MobileContainer from '../layout/MobileContainer';
+import AppHeader from '../layout/AppHeader';
 
-const imgMypageStroke = 'https://www.figma.com/api/mcp/asset/a16567fb-feef-4811-b5a8-486d95c85113';
-const imgUnion = 'https://www.figma.com/api/mcp/asset/4ecb3741-2b9b-4405-8ce3-9bbbb098d8ac';
-const imgIconHome = 'https://www.figma.com/api/mcp/asset/c8b22801-f966-46f6-9052-4fbbab01fb4f';
-const imgIconPrescription = 'https://www.figma.com/api/mcp/asset/67bf53c8-6b9e-4e81-ae20-0b3b81253024';
-const imgImg = 'https://www.figma.com/api/mcp/asset/6101343e-9ded-42ba-b496-5ee679b6e143';
 const imgIconSearch = 'https://www.figma.com/api/mcp/asset/3bb545d2-eee1-46fe-a636-88c0cf7c6823';
 const imgIconScan = 'https://www.figma.com/api/mcp/asset/501527bf-e52a-4ae1-86cd-d105655eed36';
 const imgCharacter = 'https://www.figma.com/api/mcp/asset/dd7eb3c2-8130-4e30-85b3-e7befaa0ae5c';
 const imgIconBell = 'https://www.figma.com/api/mcp/asset/42a166fd-1693-4b93-a31b-8c16eaa6493d';
+const imgImg = 'https://www.figma.com/api/mcp/asset/6101343e-9ded-42ba-b496-5ee679b6e143';
 
 export default function MainHomeScreen() {
+  const bellButton = (
+    <button type="button" aria-label="알림">
+      <img src={imgIconBell} alt="" className="h-[30px] w-[30px]" />
+    </button>
+  );
 
   return (
-    <div className="flex h-svh w-full justify-center overflow-hidden bg-[#F3F4F6]">
-      <div className="flex h-svh w-full max-w-[402px] flex-col bg-white">
-
-        {/* Header */}
-        <header className="flex shrink-0 items-center justify-between border-b border-[#dadada] bg-white px-[32px] h-[60px]">
-          <span className="font-['SUIT',sans-serif] text-[20px] font-extrabold tracking-[-0.4px] text-[#111827]">
-            CareLink
-          </span>
-          <button type="button" aria-label="알림">
-            <img src={imgIconBell} alt="" className="h-[30px] w-[30px]" />
-          </button>
-        </header>
-
-        {/* Scrollable content */}
-        <div className="flex flex-1 flex-col overflow-y-auto">
+    <MobileContainer
+      hasBottomNav
+      header={
+        <AppHeader 
+          isHomeComponent 
+          title="CareLink" 
+          showBack={false} 
+          rightElement={bellButton} 
+        />
+      }
+    >
 
           {/* Greeting */}
           <div className="flex items-center gap-[15px] px-[32px] pt-[30px] pb-[24px]">
@@ -102,34 +101,6 @@ export default function MainHomeScreen() {
               </div>
             </Link>
           </div>
-        </div>
-
-        {/* Bottom tab bar */}
-        <nav className="flex h-[94px] shrink-0 items-start justify-around border-t border-[#dadada] bg-white pt-[10px]">
-          <button type="button" className="flex w-[83px] flex-col items-center gap-[4px]">
-            <img src={imgIconHome} alt="홈" className="h-[30px] w-[30px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">홈</span>
-          </button>
-
-          <Link to="/prescriptions" className="flex w-[83px] flex-col items-center gap-[4px]">
-            <img src={imgIconPrescription} alt="처방전" className="h-[30px] w-[30px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">처방전</span>
-          </Link>
-
-          <Link to="/community" className="flex w-[83px] flex-col items-center gap-[4px]">
-            <img src={imgUnion} alt="커뮤니티" className="h-[27px] w-[27px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">커뮤니티</span>
-          </Link>
-
-          <Link
-            to="/mypage"
-            className="flex w-[83px] flex-col items-center gap-[4px]"
-          >
-            <img src={imgMypageStroke} alt="마이페이지" className="h-[23px] w-[23px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">마이페이지</span>
-          </Link>
-        </nav>
-      </div>
-    </div>
+    </MobileContainer>
   );
 }

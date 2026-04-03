@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const imgArrowLine = 'https://www.figma.com/api/mcp/asset/f5163a49-87da-40c5-831f-a327553888ca';
+import MobileContainer from '../layout/MobileContainer';
+import AppHeader from '../layout/AppHeader';
 const imgIconCheck = 'https://www.figma.com/api/mcp/asset/805461ba-852c-4a15-b122-f60a1d8b2d8c';
 const imgIconCheck1 = 'https://www.figma.com/api/mcp/asset/1e43820f-a101-4428-9dfd-26d60e5e98a1';
 
@@ -40,24 +41,34 @@ export default function SymptomResultScreen() {
   }, [hasScrolled]);
 
   return (
-    <div className="flex h-svh w-full justify-center overflow-hidden bg-[#F3F4F6]">
-      <div className="flex h-svh w-full max-w-[402px] flex-col bg-white">
-
-        {/* Header */}
-        <header className="relative flex h-[70px] shrink-0 items-center justify-center border-b border-[#d1d5db] bg-white px-[32px]">
+    <MobileContainer
+      hasBottomNav={false}
+      header={
+        <AppHeader 
+          title="진료과 추천"
+          rightElement={
+            <div className="absolute right-[20px] flex h-[22px] items-center justify-center rounded-[11px] bg-[#296dff] px-[10px]">
+              <span className="font-['SUIT',sans-serif] text-[12px] font-bold tracking-[-0.6px] text-white">STEP 2 / 3</span>
+            </div>
+          }
+        />
+      }
+      bottomFixedElement={
+        <div className="shrink-0 bg-white px-[31px] py-[20px] shadow-[0px_-4px_10px_0px_rgba(0,0,0,0.04)]">
           <button
             type="button"
-            onClick={() => navigate(-1)}
-            className="absolute left-[32px]"
-            aria-label="뒤로가기"
+            disabled={!agreed}
+            className={`h-[60px] w-full rounded-[10px] text-[18px] font-medium tracking-[-0.9px] transition-colors duration-300 ${
+              agreed
+                ? 'bg-[#296dff] text-white shadow-[0px_4px_10px_0px_rgba(0,82,219,0.25)]'
+                : 'bg-[#f9f9fb] text-[#d1d5db] cursor-not-allowed'
+            }`}
           >
-            <img src={imgArrowLine} alt="" className="h-[16px] w-[16px]" />
+            진료 준비하기
           </button>
-          <span className="text-[20px] font-medium tracking-[-1px] text-[#111827]">진료과 추천</span>
-          <div className="absolute right-[20px] flex h-[22px] items-center justify-center rounded-[11px] bg-[#296dff] px-[10px]">
-            <span className="text-[12px] font-bold tracking-[-0.6px] text-white">STEP 2 / 3</span>
-          </div>
-        </header>
+        </div>
+      }
+    >
 
         {/* Scrollable content */}
         <div className="flex flex-1 flex-col overflow-y-auto px-[20px] py-[24px] gap-[28px]">
@@ -180,22 +191,6 @@ export default function SymptomResultScreen() {
 
           <div className="h-[4px]" />
         </div>
-
-        {/* Bottom action button */}
-        <div className="shrink-0 bg-white px-[31px] py-[20px] shadow-[0px_-4px_10px_0px_rgba(0,0,0,0.04)]">
-          <button
-            type="button"
-            disabled={!agreed}
-            className={`h-[60px] w-full rounded-[10px] text-[18px] font-medium tracking-[-0.9px] transition-colors duration-300 ${
-              agreed
-                ? 'bg-[#296dff] text-white shadow-[0px_4px_10px_0px_rgba(0,82,219,0.25)]'
-                : 'bg-[#f9f9fb] text-[#d1d5db] cursor-not-allowed'
-            }`}
-          >
-            진료 준비하기
-          </button>
-        </div>
-      </div>
-    </div>
+    </MobileContainer>
   );
 }

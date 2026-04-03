@@ -4,11 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { fetchCommunityPosts } from '../../api/communityApi';
 import type { CommunityPost } from '../../types/community';
 
-const imgArrowLine = 'https://www.figma.com/api/mcp/asset/304f4f50-fe2a-41d0-aef2-fa8796a06b9b';
-const imgMypageStroke = 'https://www.figma.com/api/mcp/asset/6efa4388-f7eb-4882-936b-a26dae853a96';
-const imgUnion = 'https://www.figma.com/api/mcp/asset/09bb2e4c-db3a-4e83-b032-20194974782d';
-const imgIconHome = 'https://www.figma.com/api/mcp/asset/ae7d82a2-60ca-43f7-a6f3-76fca538a9f4';
-const imgIconPrescription = 'https://www.figma.com/api/mcp/asset/67bf53c8-6b9e-4e81-ae20-0b3b81253024';
+import MobileContainer from '../layout/MobileContainer';
+import AppHeader from '../layout/AppHeader';
 
 type CategoryFilter = 'ALL' | 'NOTICE' | 'QUESTION' | 'REVIEW' | 'FREE';
 
@@ -76,25 +73,10 @@ export default function CommunityPage() {
     category === 'ALL' ? posts : posts.filter((post) => post.category === category);
 
   return (
-    <div className="flex h-svh w-full justify-center overflow-hidden bg-[#F3F4F6]">
-      <div className="flex h-svh w-full max-w-[402px] flex-col bg-white">
-        {/* Header */}
-        <header className="flex shrink-0 items-center justify-between border-b border-[#dadada] bg-white px-[32px] h-[60px]">
-          <div className="flex items-center gap-[12px]">
-            <button
-              type="button"
-              onClick={() => navigate(-1)}
-              aria-label="뒤로가기"
-            >
-              <img src={imgArrowLine} alt="" className="h-[16px] w-[16px]" />
-            </button>
-            <span className="font-['SUIT',sans-serif] text-[20px] font-extrabold tracking-[-0.4px] text-[#111827]">
-              커뮤니티
-            </span>
-          </div>
-        </header>
-
-        <div className="flex flex-1 flex-col overflow-y-auto">
+    <MobileContainer
+      hasBottomNav
+      header={<AppHeader title="커뮤니티" />}
+    >
           {/* Greeting/Title Area */}
           <div className="px-[32px] pt-[30px] pb-[16px] text-left">
             <p className="text-[28px] tracking-[-1.4px] text-[#111827] leading-[1.3] break-keep">
@@ -175,30 +157,6 @@ export default function CommunityPage() {
               </div>
             )}
           </section>
-        </div>
-
-        <nav className="flex h-[94px] shrink-0 items-start justify-around border-t border-[#dadada] bg-white pt-[10px]">
-          <Link to="/" className="flex w-[83px] flex-col items-center gap-[4px]">
-            <img src={imgIconHome} alt="홈" className="h-[30px] w-[30px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">홈</span>
-          </Link>
-
-          <Link to="/prescriptions" className="flex w-[83px] flex-col items-center gap-[4px]">
-            <img src={imgIconPrescription} alt="처방전" className="h-[30px] w-[30px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">처방전</span>
-          </Link>
-
-          <button type="button" className="flex w-[83px] flex-col items-center gap-[4px]">
-            <img src={imgUnion} alt="커뮤니티" className="h-[27px] w-[27px]" style={{ filter: 'invert(33%) sepia(85%) saturate(2768%) hue-rotate(209deg) brightness(101%) contrast(106%)' }} />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#296dff]">커뮤니티</span>
-          </button>
-
-          <Link to="/mypage" className="flex w-[83px] flex-col items-center gap-[4px]">
-            <img src={imgMypageStroke} alt="마이페이지" className="h-[23px] w-[23px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">마이페이지</span>
-          </Link>
-        </nav>
-      </div>
-    </div>
+    </MobileContainer>
   );
 }
