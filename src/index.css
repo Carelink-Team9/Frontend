@@ -1,6 +1,25 @@
 @import "tailwindcss";
+@import url("https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css");
+
+@theme {
+  --color-blue: rgba(41, 109, 255, 1);
+  --color-fuschia-100: rgba(239, 93, 168, 1);
+  --color-fuschia-80: rgba(241, 120, 182, 1);
+  --color-fuschia-60: rgba(252, 221, 236, 1);
+  --color-iris-100: rgba(93, 95, 239, 1);
+  --color-iris-80: rgba(120, 121, 241, 1);
+  --color-iris-60: rgba(165, 166, 246, 1);
+  --font-suit-bold: "SUIT", Helvetica, sans-serif;
+}
 
 :root {
+  --blue: rgba(41, 109, 255, 1);
+  --fuschia-100: rgba(239, 93, 168, 1);
+  --fuschia-60: rgba(252, 221, 236, 1);
+  --fuschia-80: rgba(241, 120, 182, 1);
+  --iris-100: rgba(93, 95, 239, 1);
+  --iris-60: rgba(165, 166, 246, 1);
+  --iris-80: rgba(120, 121, 241, 1);
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;
@@ -91,4 +110,36 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+/* ── Splash screen animations ── */
+.animate-fade-in {
+  animation: fade-in 0.8s ease forwards;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s var(--animation-delay, 0.3s) ease forwards;
+  opacity: 0;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
