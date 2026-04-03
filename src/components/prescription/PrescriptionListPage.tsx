@@ -2,13 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MOCK_PRESCRIPTIONS } from '../../data/mockPrescriptions';
 
+import MobileContainer from '../layout/MobileContainer';
+import AppHeader from '../layout/AppHeader';
+
 const imgIcon = 'https://www.figma.com/api/mcp/asset/78067cee-8a68-4c06-8069-be06801b481d';
 const imgImg = 'https://www.figma.com/api/mcp/asset/b33bd690-f1f8-4c7a-a7fa-4ad41fd2d38e';
-const imgMypageStroke = 'https://www.figma.com/api/mcp/asset/6efa4388-f7eb-4882-936b-a26dae853a96';
-const imgUnion = 'https://www.figma.com/api/mcp/asset/09bb2e4c-db3a-4e83-b032-20194974782d';
-const imgIconHome = 'https://www.figma.com/api/mcp/asset/ae7d82a2-60ca-43f7-a6f3-76fca538a9f4';
-const imgIconPrescription = 'https://www.figma.com/api/mcp/asset/16db1b3a-a16f-4edd-a57d-587b9e66cbd3';
-const imgArrowLine = 'https://www.figma.com/api/mcp/asset/304f4f50-fe2a-41d0-aef2-fa8796a06b9b';
 
 type Filter = '전체' | '이번 달' | '지난 달';
 
@@ -43,24 +41,10 @@ export default function PrescriptionListPage() {
   const filters: Filter[] = ['전체', '이번 달', '지난 달'];
 
   return (
-    <div className="flex h-svh w-full justify-center overflow-hidden bg-[#F3F4F6]">
-      <div className="flex h-svh w-full max-w-[402px] flex-col bg-white">
-
-        {/* Header */}
-        <header className="flex h-[70px] shrink-0 items-center justify-center border-b border-[#d1d5db] bg-white px-[32px]">
-          <button
-            type="button"
-            onClick={() => navigate(-1)}
-            className="absolute left-[32px]"
-            aria-label="뒤로가기"
-          >
-            <img src={imgArrowLine} alt="" className="h-[16px] w-[16px]" />
-          </button>
-          <span className="text-[20px] font-medium tracking-[-1px] text-[#111827]">처방전 목록</span>
-        </header>
-
-        {/* Scrollable content */}
-        <div className="flex flex-1 flex-col overflow-y-auto">
+    <MobileContainer
+      hasBottomNav
+      header={<AppHeader title="처방전 목록" />}
+    >
 
           {/* Search bar */}
           <div className="flex justify-center px-[31px] pt-[20px]">
@@ -131,34 +115,6 @@ export default function PrescriptionListPage() {
               ))
             )}
           </div>
-        </div>
-
-        {/* Bottom tab bar */}
-        <nav className="flex h-[94px] shrink-0 items-start justify-around border-t border-[#dadada] bg-white pt-[10px]">
-          <Link to="/" className="flex w-[83px] flex-col items-center gap-[4px]">
-            <img src={imgIconHome} alt="홈" className="h-[30px] w-[30px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">홈</span>
-          </Link>
-
-          <button type="button" className="flex w-[83px] flex-col items-center gap-[4px]">
-            <img src={imgIconPrescription} alt="처방전" className="h-[30px] w-[30px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#296dff]">처방전</span>
-          </button>
-
-          <button type="button" className="flex w-[83px] flex-col items-center gap-[4px]">
-            <img src={imgUnion} alt="커뮤니티" className="h-[27px] w-[27px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">커뮤니티</span>
-          </button>
-
-          <Link
-            to="/mypage"
-            className="flex w-[83px] flex-col items-center gap-[4px]"
-          >
-            <img src={imgMypageStroke} alt="마이페이지" className="h-[23px] w-[23px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">마이페이지</span>
-          </Link>
-        </nav>
-      </div>
-    </div>
+    </MobileContainer>
   );
 }

@@ -1,43 +1,36 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import MobileContainer from '../layout/MobileContainer';
+import AppHeader from '../layout/AppHeader';
+
 const imgImg = 'https://www.figma.com/api/mcp/asset/e963a835-6155-4692-9f3b-8e8ae7b223c7';
 const imgCamera = 'https://www.figma.com/api/mcp/asset/dbb0eba5-edfc-4203-a001-3356b6a0d38f';
 const imgIconCheck = 'https://www.figma.com/api/mcp/asset/906017f2-f3ac-43e8-81d7-b66112bd99cd';
-const imgArrowLine = 'https://www.figma.com/api/mcp/asset/0affbc9a-acd6-4feb-8ec6-55c17623a83b';
-const imgMypageStroke = 'https://www.figma.com/api/mcp/asset/927497ca-7ead-4365-aa1c-c24476e99de5';
-const imgUnion = 'https://www.figma.com/api/mcp/asset/4e246cb2-0135-4eef-9f78-d82ddd8502f8';
-const imgIconHome = 'https://www.figma.com/api/mcp/asset/15c2eec5-7298-4b20-a770-b83753bf57a7';
-const imgIconPrescription = 'https://www.figma.com/api/mcp/asset/260402af-edd5-4a30-9fca-b1adb3a90469';
 
 export default function PrescriptionTranslatePage() {
   const navigate = useNavigate();
   const [agreed, setAgreed] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
 
   return (
-    <div className="flex h-svh w-full justify-center overflow-hidden bg-[#F3F4F6]">
-      <div className="flex h-svh w-full max-w-[402px] flex-col bg-white">
-
-        {/* Header */}
-        <header className="relative flex h-[70px] shrink-0 items-center justify-center border-b border-[#d1d5db] bg-white px-[32px]">
-          <button
-            type="button"
-            onClick={() => navigate(-1)}
-            className="absolute left-[32px]"
-            aria-label="뒤로가기"
-          >
-            <img src={imgArrowLine} alt="" className="h-[16px] w-[16px]" />
-          </button>
-          <span className="text-[20px] font-medium tracking-[-1px] text-[#111827]">처방전 번역</span>
-          <div className="absolute right-[20px] flex h-[22px] items-center justify-center rounded-[11px] bg-[#296dff] px-[10px]">
-            <span className="font-['SUIT',sans-serif] text-[12px] font-bold tracking-[-0.6px] text-white">
-              STEP 1 / 3
-            </span>
-          </div>
-        </header>
-
-        {/* Scrollable content */}
-        <div className="flex flex-1 flex-col gap-[20px] overflow-y-auto px-[20px] py-[20px]">
+    <MobileContainer
+      hasBottomNav
+      header={
+        <AppHeader 
+          title="처방전 번역"
+          rightElement={
+            <div className="absolute right-[20px] flex h-[22px] items-center justify-center rounded-[11px] bg-[#296dff] px-[10px]">
+              <span className="font-['SUIT',sans-serif] text-[12px] font-bold tracking-[-0.6px] text-white">
+                STEP 1 / 3
+              </span>
+            </div>
+          }
+        />
+      }
+    >
+      <div className="flex flex-col gap-[20px] px-[20px] py-[20px]">
 
           {/* Info card */}
           <div className="flex h-[130px] items-center gap-[18px] rounded-[10px] border border-[#d1d5db] px-[24px]">
@@ -53,11 +46,29 @@ export default function PrescriptionTranslatePage() {
           </div>
 
           {/* Camera scan area */}
-          <div className="flex h-[228px] items-center justify-center rounded-[15px] border-[3px] border-dashed border-[#e6e7eb]">
-            <div className="flex h-[122px] w-[136px] items-center justify-center rounded-[15px] border border-[#c9d9ed] bg-[#eaf5f9]">
-              <img src={imgCamera} alt="카메라" className="h-[61px] w-[63px]" />
-            </div>
-          </div>
+          <label className="flex h-[228px] cursor-pointer relative items-center justify-center rounded-[15px] border-[3px] border-dashed border-[#e6e7eb] overflow-hidden group">
+            <input 
+              type="file" 
+              accept="image/*" 
+              capture="environment" 
+              className="hidden" 
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  // 파일 상태 관리 또는 미리보기 URL 생성 가능
+                  setPreviewUrl(URL.createObjectURL(file));
+                  // setFile(file) <- 추후 백엔드로 넘겨줄 파일 객체
+                }
+              }} 
+            />
+            {previewUrl ? (
+              <img src={previewUrl} alt="처방전 미리보기" className="w-full h-full object-cover" />
+            ) : (
+              <div className="flex h-[122px] w-[136px] items-center justify-center rounded-[15px] border border-[#c9d9ed] bg-[#eaf5f9] transition-transform group-hover:scale-105">
+                <img src={imgCamera} alt="카메라" className="h-[61px] w-[63px]" />
+              </div>
+            )}
+          </label>
 
           {/* Warning box */}
           <label
@@ -102,34 +113,7 @@ export default function PrescriptionTranslatePage() {
           >
             다음
           </button>
-        </div>
-
-        {/* Bottom tab bar */}
-        <nav className="flex h-[94px] shrink-0 items-start justify-around border-t border-[#dadada] bg-white pt-[10px]">
-          <Link to="/" className="flex w-[83px] flex-col items-center gap-[4px]">
-            <img src={imgIconHome} alt="홈" className="h-[30px] w-[30px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">홈</span>
-          </Link>
-
-          <Link to="/prescriptions" className="flex w-[83px] flex-col items-center gap-[4px]">
-            <img src={imgIconPrescription} alt="처방전" className="h-[30px] w-[30px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">처방전</span>
-          </Link>
-
-          <button type="button" className="flex w-[83px] flex-col items-center gap-[4px]">
-            <img src={imgUnion} alt="커뮤니티" className="h-[27px] w-[27px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">커뮤니티</span>
-          </button>
-
-          <Link
-            to="/mypage"
-            className="flex w-[83px] flex-col items-center gap-[4px]"
-          >
-            <img src={imgMypageStroke} alt="마이페이지" className="h-[23px] w-[23px]" />
-            <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">마이페이지</span>
-          </Link>
-        </nav>
       </div>
-    </div>
+    </MobileContainer>
   );
 }

@@ -1,5 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import NearbyHospitals from './components/NearbyHospitals'
+import CommunityDetailPage from './components/community/CommunityDetailPage'
+import CommunityPage from './components/community/CommunityPage'
 import HomeRoute from './components/routing/HomeRoute'
 import RequireAuth from './components/routing/RequireAuth'
 import PrescriptionListPage from './components/prescription/PrescriptionListPage'
@@ -35,6 +37,22 @@ function App() {
         element={
           <RequireAuth>
             <PrescriptionTranslatePage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/community"
+        element={
+          <RequireAuth>
+            <CommunityPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/community/:postId"
+        element={
+          <RequireAuth>
+            <CommunityDetailPage />
           </RequireAuth>
         }
       />

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const imgArrowLine = 'https://www.figma.com/api/mcp/asset/a39ec05c-7115-4399-a7ea-dac6482fac05';
+import MobileContainer from '../layout/MobileContainer';
+import AppHeader from '../layout/AppHeader';
 const imgOptionSelect = 'https://www.figma.com/api/mcp/asset/1af20a4a-e07e-466c-b6ea-a9502e91982f';
 const imgIcon = 'https://www.figma.com/api/mcp/asset/c85970f5-a32d-4050-b504-0a9ea83851eb';
 const imgX = 'https://www.figma.com/api/mcp/asset/c78de93a-e480-4b0c-afd6-ac6c4fa4464b';
@@ -40,24 +41,35 @@ export default function SymptomInputScreen() {
   };
 
   return (
-    <div className="flex h-svh w-full justify-center overflow-hidden bg-[#F3F4F6]">
-      <div className="flex h-svh w-full max-w-[402px] flex-col bg-white">
-
-        {/* Header */}
-        <header className="relative flex h-[70px] shrink-0 items-center justify-center border-b border-[#d1d5db] bg-white px-[32px]">
+    <MobileContainer
+      hasBottomNav={false}
+      header={
+        <AppHeader 
+          title="증상 입력"
+          rightElement={
+            <div className="absolute right-[20px] flex h-[22px] items-center justify-center rounded-[11px] bg-[#296dff] px-[10px]">
+              <span className="font-['SUIT',sans-serif] text-[12px] font-bold tracking-[-0.6px] text-white">STEP 1 / 3</span>
+            </div>
+          }
+        />
+      }
+      bottomFixedElement={
+        <div className="shrink-0 bg-white px-[31px] py-[20px] shadow-[0px_-4px_10px_0px_rgba(0,0,0,0.04)]">
           <button
             type="button"
-            onClick={() => navigate(-1)}
-            className="absolute left-[32px]"
-            aria-label="뒤로가기"
+            onClick={handleNext}
+            disabled={selected.length === 0}
+            className={`h-[60px] w-full rounded-[10px] text-[18px] font-medium tracking-[-0.9px] transition-colors ${
+              selected.length > 0
+                ? 'bg-[#296dff] text-white shadow-[0px_4px_10px_0px_rgba(0,82,219,0.25)]'
+                : 'bg-[#f9f9fb] text-[#d1d5db] cursor-not-allowed'
+            }`}
           >
-            <img src={imgArrowLine} alt="" className="h-[16px] w-[16px]" />
+            진료과 추천 받기
           </button>
-          <span className="text-[20px] font-medium tracking-[-1px] text-[#111827]">증상 입력</span>
-          <div className="absolute right-[20px] flex h-[22px] items-center justify-center rounded-[11px] bg-[#296dff] px-[10px]">
-            <span className="text-[12px] font-bold tracking-[-0.6px] text-white">STEP 1 / 3</span>
-          </div>
-        </header>
+        </div>
+      }
+    >
 
         {/* Scrollable content */}
         <div className="flex flex-1 flex-col overflow-y-auto">
@@ -196,24 +208,8 @@ export default function SymptomInputScreen() {
 
           {/* Spacer */}
           <div className="flex-1" />
-        </div>
 
-        {/* Bottom action button */}
-        <div className="shrink-0 bg-white px-[31px] py-[20px] shadow-[0px_-4px_10px_0px_rgba(0,0,0,0.04)]">
-          <button
-            type="button"
-            onClick={handleNext}
-            disabled={selected.length === 0}
-            className={`h-[60px] w-full rounded-[10px] text-[18px] font-medium tracking-[-0.9px] transition-colors ${
-              selected.length > 0
-                ? 'bg-[#296dff] text-white shadow-[0px_4px_10px_0px_rgba(0,82,219,0.25)]'
-                : 'bg-[#f9f9fb] text-[#d1d5db] cursor-not-allowed'
-            }`}
-          >
-            진료과 추천 받기
-          </button>
-        </div>
       </div>
-    </div>
+    </MobileContainer>
   );
 }
