@@ -145,10 +145,10 @@ export default function PrescriptionListPage() {
             <span className="text-[12px] font-medium tracking-[-0.6px] text-[#296dff]">처방전</span>
           </button>
 
-          <button type="button" className="flex w-[83px] flex-col items-center gap-[4px]">
+          <Link to="/community" className="flex w-[83px] flex-col items-center gap-[4px]">
             <img src={imgUnion} alt="커뮤니티" className="h-[27px] w-[27px]" />
             <span className="text-[12px] font-medium tracking-[-0.6px] text-[#111827]">커뮤니티</span>
-          </button>
+          </Link>
 
           <Link
             to="/mypage"
