@@ -11,6 +11,9 @@ const imgIconCheck = 'https://www.figma.com/api/mcp/asset/906017f2-f3ac-43e8-81d
 export default function PrescriptionTranslatePage() {
   const navigate = useNavigate();
   const [agreed, setAgreed] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+
   return (
     <MobileContainer
       hasBottomNav
@@ -43,11 +46,29 @@ export default function PrescriptionTranslatePage() {
           </div>
 
           {/* Camera scan area */}
-          <div className="flex h-[228px] items-center justify-center rounded-[15px] border-[3px] border-dashed border-[#e6e7eb]">
-            <div className="flex h-[122px] w-[136px] items-center justify-center rounded-[15px] border border-[#c9d9ed] bg-[#eaf5f9]">
-              <img src={imgCamera} alt="카메라" className="h-[61px] w-[63px]" />
-            </div>
-          </div>
+          <label className="flex h-[228px] cursor-pointer relative items-center justify-center rounded-[15px] border-[3px] border-dashed border-[#e6e7eb] overflow-hidden group">
+            <input 
+              type="file" 
+              accept="image/*" 
+              capture="environment" 
+              className="hidden" 
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  // 파일 상태 관리 또는 미리보기 URL 생성 가능
+                  setPreviewUrl(URL.createObjectURL(file));
+                  // setFile(file) <- 추후 백엔드로 넘겨줄 파일 객체
+                }
+              }} 
+            />
+            {previewUrl ? (
+              <img src={previewUrl} alt="처방전 미리보기" className="w-full h-full object-cover" />
+            ) : (
+              <div className="flex h-[122px] w-[136px] items-center justify-center rounded-[15px] border border-[#c9d9ed] bg-[#eaf5f9] transition-transform group-hover:scale-105">
+                <img src={imgCamera} alt="카메라" className="h-[61px] w-[63px]" />
+              </div>
+            )}
+          </label>
 
           {/* Warning box */}
           <label
