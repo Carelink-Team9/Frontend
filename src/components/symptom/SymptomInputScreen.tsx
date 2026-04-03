@@ -64,7 +64,7 @@ export default function SymptomInputScreen() {
 
           {/* Greeting */}
           <div className="flex flex-col items-start text-left px-[32px] pt-[30px] pb-[24px] gap-[12px]">
-            <p className="text-[28px] font-medium leading-none tracking-[-1.4px] text-[#111827]">어떤 증상이 있으신가요?</p>
+            <p className="text-[28px] font-medium leading-[1.3] tracking-[-1.4px] text-[#111827] break-keep">어떤 증상이 있으신가요?</p>
             <p className="text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6b7280]">증상을 입력하거나 아래에서 선택해보세요.</p>
           </div>
 
@@ -146,7 +146,7 @@ export default function SymptomInputScreen() {
 
           {/* 증상 검색하기 */}
           <div className="flex flex-col items-start text-left px-[32px] pt-[20px] pb-[20px] w-full gap-[12px]">
-            <p className="text-[18px] font-medium leading-none tracking-[-0.9px] text-[#111827]">증상 검색하기</p>
+            <p className="text-[18px] font-medium leading-[1.3] tracking-[-0.9px] text-[#111827] break-keep">증상 검색하기</p>
             <p className="mb-[4px] text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6b7280]">증상을 검색하시거나 직접 추가해보세요.</p>
             <div className="relative flex h-[52px] w-full items-center rounded-[8px] bg-[#f3f4f6] shadow-[inset_0px_0px_10px_0px_rgba(0,0,0,0.02)]">
               <img src={imgIcon} alt="" className="ml-[20px] h-[20px] w-[20px] shrink-0" />

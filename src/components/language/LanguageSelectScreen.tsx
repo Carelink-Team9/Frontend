@@ -55,7 +55,7 @@ export default function LanguageSelectScreen({ onComplete }: Props) {
 
         {/* Title */}
         <div className="mt-[37px] flex flex-col items-center gap-[17px]">
-          <h1 className="m-0 text-[28px] font-medium tracking-[-1.4px] text-[#111827]">
+          <h1 className="m-0 text-[24px] font-medium tracking-[-1.2px] text-[#111827] break-keep leading-[1.3] text-center">
             언어를 선택하세요
           </h1>
           <p className="text-[18px] font-medium tracking-[-0.36px] text-[#6b7280]">

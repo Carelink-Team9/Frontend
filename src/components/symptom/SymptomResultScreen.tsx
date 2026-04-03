@@ -65,7 +65,7 @@ export default function SymptomResultScreen() {
           {/* AI 분석 완료 카드 */}
           <div className="flex flex-col items-start rounded-[10px] bg-[#c0ffe4] px-[24px] py-[24px] gap-[12px] w-full">
             <div className="flex items-center gap-[10px]">
-              <p className="text-left text-[24px] font-bold leading-none tracking-[-1.2px] text-[#111827]">AI 분석 완료</p>
+              <p className="text-left text-[24px] font-bold leading-[1.3] tracking-[-1.2px] text-[#111827] break-keep">AI 분석 완료</p>
               <img src={imgIconCheck} alt="" className="h-[20px] w-[20px] shrink-0" />
             </div>
             <p className="text-left text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#111827]">
@@ -75,7 +75,7 @@ export default function SymptomResultScreen() {
 
           {/* 선택된 증상 */}
           <div className="flex flex-col items-start gap-[12px] w-full">
-            <p className="text-left text-[18px] font-medium leading-none tracking-[-0.9px] text-[#111827]">선택된 증상</p>
+            <p className="text-left text-[18px] font-medium leading-[1.3] tracking-[-0.9px] text-[#111827] break-keep">선택된 증상</p>
             <div className="flex flex-wrap gap-[10px] w-full justify-start">
               {symptoms.map((s) => (
                 <div
@@ -94,13 +94,13 @@ export default function SymptomResultScreen() {
 
           {/* AI 추천 진료과 */}
           <div className="flex flex-col items-start gap-[12px] w-full">
-            <p className="text-left text-[18px] font-medium leading-none tracking-[-0.9px] text-[#111827]">AI 추천 진료과</p>
+            <p className="text-left text-[18px] font-medium leading-[1.3] tracking-[-0.9px] text-[#111827] break-keep">AI 추천 진료과</p>
 
             {/* 내과 - 주요 */}
             <div className="flex flex-col items-start gap-[12px] w-full rounded-[10px] bg-[rgba(41,109,255,0.1)] px-[24px] py-[24px]">
               <div className="flex w-full items-start justify-between">
                 <div className="flex flex-col items-start gap-[12px]">
-                  <p className="text-left text-[24px] font-bold leading-none tracking-[-1.2px] text-[#111827]">내과</p>
+                  <p className="text-left text-[24px] font-bold leading-[1.3] tracking-[-1.2px] text-[#111827] break-keep">내과</p>
                   <div className="inline-flex h-[30px] items-center rounded-[10px] bg-[#296dff] px-[15px]">
                     <span className="text-[14px] font-medium tracking-[-0.7px] text-white">최적 매칭</span>
                   </div>
@@ -120,10 +120,10 @@ export default function SymptomResultScreen() {
 
           {/* 대안 진료과 */}
           <div className="flex flex-col items-start gap-[12px] w-full">
-            <p className="text-left text-[18px] font-medium leading-none tracking-[-0.9px] text-[#111827]">대안 진료과</p>
+            <p className="text-left text-[18px] font-medium leading-[1.3] tracking-[-0.9px] text-[#111827] break-keep">대안 진료과</p>
             <div className="flex flex-col items-start gap-[12px] w-full rounded-[10px] border border-[#d1d5db] bg-white px-[24px] py-[24px]">
               <div className="flex w-full items-start justify-between">
-                <p className="text-left text-[18px] font-bold leading-none tracking-[-0.9px] text-[#111827]">신경과</p>
+                <p className="text-left text-[18px] font-bold leading-[1.3] tracking-[-0.9px] text-[#111827] break-keep">신경과</p>
                 <div className="flex h-[35px] items-center rounded-[20px] bg-[#f3f4f6] px-[15px]">
                   <span className="text-[14px] font-medium tracking-[-0.7px] text-[#111827]">60%</span>
                 </div>

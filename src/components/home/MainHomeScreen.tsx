@@ -32,7 +32,7 @@ export default function MainHomeScreen() {
           {/* Greeting */}
           <div className="flex items-center gap-[15px] px-[32px] pt-[30px] pb-[24px]">
             <img src={imgCharacter} alt="" className="h-[30px] w-[30px] shrink-0" />
-            <p className="text-[28px] tracking-[-1.4px] text-[#111827]">
+            <p className="text-[28px] tracking-[-1.4px] text-[#111827] leading-[1.3] break-keep">
               <span className="font-bold">길동 님, </span>
               <span className="font-medium">안녕하세요.</span>
             </p>
@@ -46,7 +46,7 @@ export default function MainHomeScreen() {
               className="flex h-[130px] items-center justify-between rounded-[10px] bg-[#296dff] pl-[20px] pr-[20px]"
             >
               <div className="flex flex-col items-start text-left">
-                <p className="text-[24px] font-bold tracking-[-1.2px] text-white">진료과 추천</p>
+                <p className="text-[24px] font-bold tracking-[-1.2px] text-white leading-[1.3] break-keep">진료과 추천</p>
                 <p className="mt-[8px] text-[14px] font-medium tracking-[-0.7px] text-white">
                   AI 가 증상을 분석하고 진료과를 알려줘요.
                 </p>
@@ -62,7 +62,7 @@ export default function MainHomeScreen() {
               className="flex h-[130px] items-center justify-between rounded-[10px] bg-[#296dff] pl-[20px] pr-[20px]"
             >
               <div className="flex flex-col items-start text-left">
-                <p className="text-[24px] font-bold tracking-[-1.2px] text-white">처방전 안내</p>
+                <p className="text-[24px] font-bold tracking-[-1.2px] text-white leading-[1.3] break-keep">처방전 안내</p>
                 <p className="mt-[8px] text-[14px] font-medium tracking-[-0.7px] text-white">
                   AI 가 처방전을 인식하고 번역해요.
                 </p>
