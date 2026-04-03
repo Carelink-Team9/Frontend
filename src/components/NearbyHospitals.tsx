@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  CircularProgress,
   Alert,
+  Button,
   Chip,
+  CircularProgress,
   Divider,
+  FormControl,
   IconButton,
   InputAdornment,
+  MenuItem,
+  Select,
   TextField,
   Typography,
-  Select,
-  MenuItem,
-  FormControl,
 } from '@mui/material';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -22,12 +23,14 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { fetchNearbyHospitals } from '../api/hospitalApi';
 import type { Hospital } from '../types/hospital';
+import { useAuth } from '../context/AuthContext';
 
 const RADIUS_KM = 5;
 const LIMIT = 20;
 
 export default function NearbyHospitals() {
   const { t, i18n } = useTranslation();
+  const { logout } = useAuth();
   const { lat, lng, error: geoError, loading: geoLoading } = useGeolocation();
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
   const [filtered, setFiltered] = useState<Hospital[]>([]);
@@ -87,6 +90,9 @@ export default function NearbyHospitals() {
           </Typography>
         </div>
         <div className="flex items-center gap-2">
+          <Button variant="text" size="small" color="inherit" onClick={() => logout()} sx={{ minWidth: 'auto' }}>
+            {t('logout')}
+          </Button>
           <FormControl size="small">
             <Select
               value={i18n.language.split('-')[0]}

@@ -1,75 +1,44 @@
-# React + TypeScript + Vite
+# Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 + Vite + TypeScript + Tailwind v4 + MUI 기반 프론트엔드입니다.
 
-Currently, two official plugins are available:
+## 실행
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- 개발 서버: `http://localhost:5173`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 라우트 맵
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+현재 라우팅은 로그인 상태(`localStorage`의 `frontend.auth.loggedIn`)에 따라 분기됩니다.
+
+```text
+/
+├─ (비로그인) WelcomeGateScreen
+└─ (로그인) MainHomeScreen
+   ├─ /prescriptions                -> PrescriptionListPage
+   ├─ /prescriptions/translate      -> PrescriptionTranslatePage
+   ├─ /symptom-input                -> SymptomInputScreen
+   └─ /nearby-hospitals             -> NearbyHospitals
 ```
+
+## 인증/가드 구조
+
+- `AuthProvider`: 로그인 상태를 Context + localStorage로 관리
+- `HomeRoute`: `/`에서 로그인 여부에 따라 웰컴/홈 분기
+- `RequireAuth`: 보호 라우트 접근 시 비로그인이면 `/`로 리다이렉트
+
+## 주요 파일
+
+- `src/App.tsx`: 전체 Route 선언
+- `src/context/AuthContext.tsx`: 로그인 상태 관리
+- `src/components/routing/HomeRoute.tsx`: 홈 분기
+- `src/components/routing/RequireAuth.tsx`: 인증 가드
+- `src/components/home/MainHomeScreen.tsx`: 로그인 후 메인 홈
+- `src/components/prescription/PrescriptionListPage.tsx`: 처방전 목록
+- `src/components/prescription/PrescriptionTranslatePage.tsx`: 처방전 번역
+- `src/components/symptom/SymptomInputScreen.tsx`: 증상 입력
+- `src/components/NearbyHospitals.tsx`: 내 근처 병원
