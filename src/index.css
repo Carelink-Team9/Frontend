@@ -1,4 +1,25 @@
+@import "tailwindcss";
+@import url("https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css");
+
+@theme {
+  --color-blue: rgba(41, 109, 255, 1);
+  --color-fuschia-100: rgba(239, 93, 168, 1);
+  --color-fuschia-80: rgba(241, 120, 182, 1);
+  --color-fuschia-60: rgba(252, 221, 236, 1);
+  --color-iris-100: rgba(93, 95, 239, 1);
+  --color-iris-80: rgba(120, 121, 241, 1);
+  --color-iris-60: rgba(165, 166, 246, 1);
+  --font-suit-bold: "SUIT", Helvetica, sans-serif;
+}
+
 :root {
+  --blue: rgba(41, 109, 255, 1);
+  --fuschia-100: rgba(239, 93, 168, 1);
+  --fuschia-60: rgba(252, 221, 236, 1);
+  --fuschia-80: rgba(241, 120, 182, 1);
+  --iris-100: rgba(93, 95, 239, 1);
+  --iris-60: rgba(165, 166, 246, 1);
+  --iris-80: rgba(120, 121, 241, 1);
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;
@@ -11,13 +32,13 @@
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans: 'Noto Sans KR', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: 'Noto Sans KR', system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
-  color-scheme: light dark;
+  color-scheme: light;
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
@@ -30,25 +51,6 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
 
 #root {
   width: 1126px;
@@ -108,4 +110,36 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+/* ── Splash screen animations ── */
+.animate-fade-in {
+  animation: fade-in 0.8s ease forwards;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s var(--animation-delay, 0.3s) ease forwards;
+  opacity: 0;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
