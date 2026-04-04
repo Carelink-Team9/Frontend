@@ -6,7 +6,7 @@ type AuthStore = {
   isInitializing: boolean;
   initialized: boolean;
   initializeSession: () => Promise<void>;
-  login: (language: string) => Promise<void>;
+  login: (language: string, name: string) => Promise<void>;
   logout: () => Promise<void>;
 };
 
@@ -30,10 +30,10 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       set({ isLoggedIn: false, isInitializing: false, initialized: true });
     }
   },
-  login: async (language: string) => {
+  login: async (language: string, name: string) => {
     try {
       await createUserSession({
-        name: '홍길동',
+        name,
         language,
       });
       set({ isLoggedIn: true });

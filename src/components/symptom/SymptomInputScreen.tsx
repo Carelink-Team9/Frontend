@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import MobileContainer from '../layout/MobileContainer';
 import AppHeader from '../layout/AppHeader';
-const imgOptionSelect = 'https://www.figma.com/api/mcp/asset/1af20a4a-e07e-466c-b6ea-a9502e91982f';
 const imgX = 'https://www.figma.com/api/mcp/asset/c78de93a-e480-4b0c-afd6-ac6c4fa4464b';
 
 const CATEGORIES = [
@@ -114,8 +113,16 @@ export default function SymptomInputScreen() {
               className="flex w-full items-center justify-between pb-[20px]"
             >
               <span className="text-[18px] font-medium tracking-[-0.9px] text-black">빠른 증상 선택</span>
-              <div className={`transition-transform duration-200 ${quickOpen ? '' : 'rotate-180'}`}>
-                <img src={imgOptionSelect} alt="" className="h-[22px] w-[22px]" />
+              <div className="transition-transform duration-200">
+                <div className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-[#296dff]">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    {quickOpen ? (
+                      <polyline points="18 15 12 9 6 15" />
+                    ) : (
+                      <polyline points="6 9 12 15 18 9" />
+                    )}
+                  </svg>
+                </div>
               </div>
             </button>
 

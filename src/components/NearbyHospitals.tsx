@@ -84,8 +84,8 @@ export default function NearbyHospitals() {
       {/* 타이틀 */}
       <div className="flex items-start justify-between px-[32px] pt-[24px] text-left">
         <div>
-          <h1 className="text-[28px] font-medium tracking-[-1.4px] text-[#111827]">내 근처 병원</h1>
-          <p className="mt-[6px] text-[14px] font-medium tracking-[-0.7px] text-[#6b7280]">
+          <h1 className="text-[24px] font-semibold tracking-[-1.2px] text-[#111827]">내 근처 병원</h1>
+          <p className="mt-[6px] text-[13px] font-medium tracking-[-0.5px] text-[#6b7280]">
             {`반경 ${RADIUS_KM}km  ·  최대 ${LIMIT}개`}
           </p>
           {mainDepartment && (
@@ -116,7 +116,7 @@ export default function NearbyHospitals() {
             placeholder="검색"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 bg-transparent text-[16px] font-medium tracking-[-0.8px] text-[#111827] placeholder-[#d1d5db] outline-none"
+            className="flex-1 bg-transparent text-[15px] font-medium tracking-[-0.5px] text-[#111827] placeholder-[#d1d5db] outline-none"
           />
         </div>
       </div>
@@ -144,19 +144,19 @@ function HospitalCard({ hospital: h }: { hospital: Hospital }) {
     <div className="w-full rounded-[10px] bg-[#f9f9fb] p-[20px] shadow-[0px_4px_10px_0px_#d1d5db] text-left">
       {/* 이름 + 거리 */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-[10px]">
-          <img src={imgIconH} alt="" className="h-[20px] w-[20px] shrink-0" />
-          <span className="text-[18px] font-medium tracking-[-0.9px] text-black">{h.name}</span>
+        <div className="flex items-center gap-[8px]">
+          <img src={imgIconH} alt="" className="h-[18px] w-[18px] shrink-0" />
+          <span className="text-[16px] font-bold tracking-[-0.5px] text-[#111827]">{h.name}</span>
         </div>
-        <span className="shrink-0 rounded-[15px] bg-[#6b7280] px-[10px] py-[3px] text-[14px] font-medium tracking-[-0.7px] text-white">
+        <span className="shrink-0 rounded-[15px] bg-[#6b7280] px-[10px] py-[3px] text-[13px] font-medium tracking-[-0.5px] text-white">
           {h.distanceKm.toFixed(2)} km
         </span>
       </div>
 
       {/* 진료과 태그 */}
       {h.department && (
-        <div className="mt-[12px] inline-flex h-[25px] items-center rounded-[15px] bg-[#caffe8] px-[10px]">
-          <span className="text-[14px] font-medium tracking-[-0.7px] text-[#0bb980]">{h.department}</span>
+        <div className="mt-[12px] inline-flex h-[24px] items-center rounded-[12px] bg-[#caffe8] px-[10px]">
+          <span className="text-[13px] font-semibold tracking-[-0.5px] text-[#0bb980]">{h.department}</span>
         </div>
       )}
 
@@ -166,21 +166,21 @@ function HospitalCard({ hospital: h }: { hospital: Hospital }) {
       {/* 상세 정보 */}
       <div className="flex flex-col gap-[10px]">
         {/* 주소 */}
-        <div className="flex items-start gap-[10px]">
-          <img src={imgVector} alt="" className="mt-[3px] h-[18px] w-[13px] shrink-0" />
-          <span className="text-[16px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">{h.address}</span>
+        <div className="flex items-start gap-[8px]">
+          <img src={imgVector} alt="" className="mt-[3px] h-[16px] w-[12px] shrink-0" />
+          <span className="text-[14px] font-medium leading-[1.5] tracking-[-0.5px] text-[#6b7280]">{h.address}</span>
         </div>
 
         {/* 전화 */}
         {h.phone ? (
-          <a href={`tel:${h.phone}`} className="flex items-center gap-[10px]">
-            <img src={imgVector1} alt="" className="h-[17px] w-[17px] shrink-0" />
-            <span className="text-[16px] font-medium tracking-[-0.8px] text-[#296dff]">{h.phone}</span>
+          <a href={`tel:${h.phone}`} className="flex items-center gap-[8px]">
+            <img src={imgVector1} alt="" className="h-[15px] w-[15px] shrink-0" />
+            <span className="text-[14px] font-medium tracking-[-0.5px] text-[#296dff]">{h.phone}</span>
           </a>
         ) : (
-          <div className="flex items-center gap-[10px]">
-            <img src={imgVector1} alt="" className="h-[17px] w-[17px] shrink-0" />
-            <span className="text-[16px] font-medium tracking-[-0.8px] text-[#6b7280]">정보없음</span>
+          <div className="flex items-center gap-[8px]">
+            <img src={imgVector1} alt="" className="h-[15px] w-[15px] shrink-0" />
+            <span className="text-[14px] font-medium tracking-[-0.5px] text-[#6b7280]">정보없음</span>
           </div>
         )}
 
@@ -190,15 +190,15 @@ function HospitalCard({ hospital: h }: { hospital: Hospital }) {
             href={h.homepage}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-[10px]"
+            className="flex items-center gap-[8px]"
           >
-            <img src={imgIconLink} alt="" className="h-[17px] w-[17px] shrink-0" />
-            <span className="truncate text-[16px] font-medium tracking-[-0.8px] text-[#296dff]">{h.homepage}</span>
+            <img src={imgIconLink} alt="" className="h-[15px] w-[15px] shrink-0" />
+            <span className="truncate text-[14px] font-medium tracking-[-0.5px] text-[#296dff]">{h.homepage}</span>
           </a>
         ) : (
-          <div className="flex items-center gap-[10px]">
-            <img src={imgIconLink} alt="" className="h-[17px] w-[17px] shrink-0" />
-            <span className="text-[16px] font-medium tracking-[-0.8px] text-[#6b7280]">정보없음</span>
+          <div className="flex items-center gap-[8px]">
+            <img src={imgIconLink} alt="" className="h-[15px] w-[15px] shrink-0" />
+            <span className="text-[14px] font-medium tracking-[-0.5px] text-[#6b7280]">정보없음</span>
           </div>
         )}
       </div>
