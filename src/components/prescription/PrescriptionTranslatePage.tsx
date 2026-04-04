@@ -19,9 +19,10 @@ export default function PrescriptionTranslatePage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setPreviewUrl(URL.createObjectURL(file));
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
       setShowSheet(false);
-      navigate('/prescriptions/loading');
+      navigate('/prescriptions/loading', { state: { file, previewUrl: url } });
     }
   };
 
@@ -80,15 +81,15 @@ export default function PrescriptionTranslatePage() {
         </p>
 
         {/* Tip card */}
-        <div className="rounded-[10px] bg-[#caffe8] px-[24px] py-[22px]">
-          <div className="flex items-center gap-[10px] mb-[10px]">
+        <div className="flex flex-col items-start rounded-[10px] bg-[#caffe8] px-[24px] py-[22px] text-left">
+          <div className="mb-[10px] flex items-center gap-[10px]">
             <img src={imgIconCheck} alt="" className="h-[20px] w-[20px] shrink-0" />
             <p className="text-[20px] font-bold tracking-[-1px] text-[#111827]">촬영 Tip</p>
           </div>
-          <ul className="list-disc pl-[20px] flex flex-col gap-[2px]">
-            <li className="text-[16px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">밝은 곳에서 촬영하세요.</li>
-            <li className="text-[16px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">처방전이 반듯하게 놓이도록 하세요.</li>
-            <li className="text-[16px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">글씨가 선명하게 보이도록 초점을 맞추세요.</li>
+          <ul className="flex flex-col items-start gap-[2px] pl-[20px] text-left list-disc">
+            <li className="text-left text-[16px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">밝은 곳에서 촬영하세요.</li>
+            <li className="text-left text-[16px] font-medium leading-[1.5] Tracking-[-0.8px] text-[#6b7280]">처방전이 반듯하게 놓이도록 하세요.</li>
+            <li className="text-left text-[16px] font-medium leading-[1.5] Tracking-[-0.8px] text-[#6b7280]">글씨가 선명하게 보이도록 초점을 맞추세요.</li>
           </ul>
         </div>
       </div>
@@ -121,12 +122,12 @@ export default function PrescriptionTranslatePage() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Main buttons */}
-            <div className="w-full overflow-hidden rounded-[14px] backdrop-blur-[25px] bg-[rgba(179,179,179,0.85)]">
-              <div className="flex items-center justify-center border-b border-[rgba(128,128,128,0.55)] px-[16px] py-[13px]">
-                <p className="text-[13px] font-semibold text-[#3d3d3d] tracking-[-0.08px]">업로드 방식을 선택해 주세요</p>
+            <div className="w-full overflow-hidden rounded-[14px] bg-[#F2F2F2] backdrop-blur-[25px]">
+              <div className="flex items-center justify-center border-b border-[#E5E5EA] px-[16px] py-[13px]">
+                <p className="text-[13px] font-semibold tracking-[-0.08px] text-[#8f8f8f]">업로드 방식을 선택해 주세요</p>
               </div>
               <button
-                className="flex h-[56px] w-full items-center justify-center border-b border-[rgba(128,128,128,0.55)] text-[17px] text-[#007aff]"
+                className="flex h-[56px] w-full items-center justify-center border-b border-[#E5E5EA] text-[17px] text-[#007aff]"
                 onClick={() => cameraInputRef.current?.click()}
               >
                 사진 촬영
@@ -139,7 +140,7 @@ export default function PrescriptionTranslatePage() {
               </button>
             </div>
             {/* Cancel */}
-            <div className="w-full overflow-hidden rounded-[14px] backdrop-blur-[25px] bg-[rgba(153,153,153,0.97)]">
+            <div className="w-full overflow-hidden rounded-[14px] bg-white backdrop-blur-[25px]">
               <button
                 className="flex h-[56px] w-full items-center justify-center text-[17px] font-semibold text-[#007aff]"
                 onClick={() => setShowSheet(false)}

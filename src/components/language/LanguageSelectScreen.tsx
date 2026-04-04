@@ -28,93 +28,100 @@ const languages: Language[] = [
 ];
 
 interface Props {
-  onComplete: () => void;
+  onComplete: (language: string) => Promise<void>;
 }
 
 export default function LanguageSelectScreen({ onComplete }: Props) {
   const { i18n } = useTranslation();
   const [selected, setSelected] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleContinue = () => {
-    if (!selected) return;
-    const lang = languages.find((l) => l.code === selected)!;
-    i18n.changeLanguage(lang.i18nCode);
-    localStorage.setItem(LANGUAGE_SELECTED_KEY, lang.i18nCode);
-    onComplete();
+  const handleContinue = async () => {
+    if (!selected || submitting) return;
+
+    const lang = languages.find((language) => language.code === selected);
+    if (!lang) return;
+
+    setSubmitting(true);
+
+    try {
+      await i18n.changeLanguage(lang.i18nCode);
+      localStorage.setItem(LANGUAGE_SELECTED_KEY, lang.i18nCode);
+      await onComplete(lang.i18nCode);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <div className="flex min-h-svh w-full justify-center bg-[#F3F4F6]">
       <div className="flex min-h-svh w-full max-w-[402px] flex-col bg-white shadow-xl">
-        {/* Language icon */}
         <div className="flex justify-center pt-[120px]">
-          <div className="flex items-center justify-center w-[60px] h-[60px] rounded-[10px] bg-[#f9f9fb] shadow-[0px_4px_8px_0px_rgba(209,213,219,0.5)]">
+          <div className="flex h-[60px] w-[60px] items-center justify-center rounded-[10px] bg-[#f9f9fb] shadow-[0px_4px_8px_0px_rgba(209,213,219,0.5)]">
             <LanguageIcon sx={{ fontSize: 40, color: '#374151' }} />
           </div>
         </div>
 
-        {/* Title */}
         <div className="mt-[37px] flex flex-col items-center gap-[17px]">
-          <h1 className="m-0 text-[24px] font-medium tracking-[-1.2px] text-[#111827] break-keep leading-[1.3] text-center">
-            언어를 선택하세요
+          <h1 className="m-0 text-center text-[24px] font-medium leading-[1.3] tracking-[-1.2px] text-[#111827] break-keep">
+            언어를 선택해주세요
           </h1>
           <p className="text-[18px] font-medium tracking-[-0.36px] text-[#6b7280]">
             Select Your Language
           </p>
         </div>
 
-        {/* Language list */}
         <div className="mt-[44px] flex flex-col gap-[15px] px-[36px]">
           {languages.map((lang) => (
             <button
               key={lang.code}
               type="button"
               onClick={() => setSelected(lang.code)}
-              className={`flex items-center h-[60px] w-full rounded-[10px] px-[18px] transition-colors text-left ${
+              className={`flex h-[60px] w-full items-center rounded-[10px] px-[18px] text-left transition-colors ${
                 selected === lang.code
                   ? 'border-[1.5px] border-[#296dff] bg-white'
                   : 'border border-[#d1d5db] bg-white'
               }`}
             >
-              <div className="w-[42px] h-[42px] rounded-full overflow-hidden shrink-0">
-                <img src={lang.flagSrc} alt={lang.countryCode} className="w-full h-full object-cover" />
+              <div className="h-[42px] w-[42px] shrink-0 overflow-hidden rounded-full">
+                <img src={lang.flagSrc} alt={lang.countryCode} className="h-full w-full object-cover" />
               </div>
-              <span className="ml-[12px] text-[14px] font-medium tracking-[-0.7px] text-[#374151] w-[28px] shrink-0">
+              <span className="ml-[12px] w-[28px] shrink-0 text-[14px] font-medium tracking-[-0.7px] text-[#374151]">
                 {lang.countryCode}
               </span>
               <span className="ml-[8px] text-[18px] font-bold tracking-[-0.9px] text-[#111827]">
                 {lang.name}
               </span>
-              {selected === lang.code && (
-                <img src={imgIconCheck} alt="선택됨" className="ml-auto h-[22px] w-[22px] shrink-0" />
-              )}
+              {selected === lang.code ? (
+                <img src={imgIconCheck} alt="selected" className="ml-auto h-[22px] w-[22px] shrink-0" />
+              ) : null}
             </button>
           ))}
         </div>
 
-        {/* Footer help text */}
-        <div className="mt-auto flex items-center justify-center gap-[4px] pb-[16px] px-[32px] flex-wrap">
+        <div className="mt-auto flex flex-wrap items-center justify-center gap-[4px] px-[32px] pb-[16px]">
           <span className="text-[14px] font-medium tracking-[-0.7px] text-[#6b7280]">
             원하는 언어가 없으신가요?
           </span>
           <button type="button" className="text-[14px] font-medium tracking-[-0.7px] text-[#2a52c7]">
-            언어 지원 도움 받기
+            언어 지원 요청 보내기
           </button>
         </div>
 
-        {/* Continue button */}
-        <div className="pb-[40px] px-[32px]">
+        <div className="px-[32px] pb-[40px]">
           <button
             type="button"
-            onClick={handleContinue}
-            disabled={!selected}
-            className={`w-full h-[60px] rounded-[10px] text-[18px] font-medium tracking-[-0.9px] transition-colors ${
-              selected
+            onClick={() => {
+              void handleContinue();
+            }}
+            disabled={!selected || submitting}
+            className={`h-[60px] w-full rounded-[10px] text-[18px] font-medium tracking-[-0.9px] transition-colors ${
+              selected && !submitting
                 ? 'bg-[#296dff] text-white cursor-pointer'
                 : 'bg-[#f9f9fb] text-[#d1d5db] cursor-not-allowed'
             }`}
           >
-            계속하기
+            {submitting ? '처리 중...' : '계속하기'}
           </button>
         </div>
       </div>

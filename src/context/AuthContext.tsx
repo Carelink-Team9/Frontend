@@ -2,58 +2,85 @@ import {
   createContext,
   useCallback,
   useContext,
-  useMemo,
+  useEffect,
   useState,
   type ReactNode,
 } from 'react';
-
-const STORAGE_KEY = 'frontend.auth.loggedIn';
-
-function readStoredLoggedIn(): boolean {
-  try {
-    return localStorage.getItem(STORAGE_KEY) === 'true';
-  } catch {
-    return false;
-  }
-}
+import { createUserSession, deleteUserSession, fetchUserSession } from '../api/userApi';
 
 type AuthContextValue = {
   isLoggedIn: boolean;
-  login: () => void;
-  logout: () => void;
+  isInitializing: boolean;
+  login: (language: string) => Promise<void>;
+  logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(readStoredLoggedIn);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
 
-  const login = useCallback(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, 'true');
-    } catch {
-      /* ignore */
+  useEffect(() => {
+    let cancelled = false;
+
+    async function initializeSession() {
+      try {
+        await fetchUserSession();
+
+        if (!cancelled) {
+          setIsLoggedIn(true);
+        }
+      } catch (error) {
+        console.error('Failed to restore user session from /api/user/session.', error);
+
+        if (!cancelled) {
+          setIsLoggedIn(false);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsInitializing(false);
+        }
+      }
     }
-    setIsLoggedIn(true);
+
+    void initializeSession();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const logout = useCallback(() => {
+  const login = useCallback(async (language: string) => {
     try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      /* ignore */
+      await createUserSession({
+        name: '홍길동',
+        language,
+      });
+
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.error('Failed to create user session via /api/user.', error);
+      throw error;
     }
-    setIsLoggedIn(false);
   }, []);
 
-  const value = useMemo(
-    () => ({
-      isLoggedIn,
-      login,
-      logout,
-    }),
-    [isLoggedIn, login, logout],
-  );
+  const logout = useCallback(async () => {
+    try {
+      await deleteUserSession();
+    } catch (error) {
+      console.error('Failed to delete user session via /api/user/session.', error);
+    } finally {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
+  const value = {
+    isLoggedIn,
+    isInitializing,
+    login,
+    logout,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
