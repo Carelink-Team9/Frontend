@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import MobileContainer from '../layout/MobileContainer';
 import AppHeader from '../layout/AppHeader';
 const imgOptionSelect = 'https://www.figma.com/api/mcp/asset/1af20a4a-e07e-466c-b6ea-a9502e91982f';
-const imgIcon = 'https://www.figma.com/api/mcp/asset/c85970f5-a32d-4050-b504-0a9ea83851eb';
 const imgX = 'https://www.figma.com/api/mcp/asset/c78de93a-e480-4b0c-afd6-ac6c4fa4464b';
 
 const CATEGORIES = [
@@ -17,13 +16,12 @@ const CATEGORIES = [
   { emoji: '🫀', label: '가슴 & 심장', symptoms: ['가슴 통증', '두근거림', '호흡 곤란'] },
 ];
 
-const ALL_SYMPTOMS = CATEGORIES.flatMap((c) => c.symptoms);
 
 export default function SymptomInputScreen() {
   const navigate = useNavigate();
   const [selected, setSelected] = useState<string[]>([]);
   const [quickOpen, setQuickOpen] = useState(false);
-  const [search, setSearch] = useState('');
+  const [customText, setCustomText] = useState('');
 
   const toggle = (symptom: string) => {
     setSelected((prev) =>
@@ -31,13 +29,13 @@ export default function SymptomInputScreen() {
     );
   };
 
-  const searchResults = search.trim()
-    ? ALL_SYMPTOMS.filter((s) => s.includes(search.trim()))
-    : [];
-
   const handleNext = () => {
-    if (selected.length === 0) return;
-    navigate('/symptom-loading', { state: { symptoms: selected } });
+    if (selected.length === 0 && !customText.trim()) return;
+    const finalSymptoms = [...selected];
+    if (customText.trim()) {
+      finalSymptoms.push(customText.trim());
+    }
+    navigate('/symptom-loading', { state: { symptoms: finalSymptoms } });
   };
 
   return (
@@ -58,9 +56,9 @@ export default function SymptomInputScreen() {
           <button
             type="button"
             onClick={handleNext}
-            disabled={selected.length === 0}
+            disabled={selected.length === 0 && !customText.trim()}
             className={`h-[60px] w-full rounded-[10px] text-[18px] font-medium tracking-[-0.9px] transition-colors ${
-              selected.length > 0
+              selected.length > 0 || customText.trim()
                 ? 'bg-[#296dff] text-white shadow-[0px_4px_10px_0px_rgba(0,82,219,0.25)]'
                 : 'bg-[#f9f9fb] text-[#d1d5db] cursor-not-allowed'
             }`}
@@ -156,54 +154,20 @@ export default function SymptomInputScreen() {
           {/* Gray divider */}
           <div className="h-[20px] bg-[#f9f9fb]" />
 
-          {/* 증상 검색하기 */}
+          {/* 증상 입력하기 */}
           <div className="flex flex-col items-start text-left px-[32px] pt-[20px] pb-[20px] w-full gap-[12px]">
-            <p className="text-[18px] font-medium leading-[1.3] tracking-[-0.9px] text-[#111827] break-keep">증상 검색하기</p>
-            <p className="mb-[4px] text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6b7280]">증상을 검색하시거나 직접 추가해보세요.</p>
-            <div className="relative flex h-[52px] w-full items-center rounded-[8px] bg-[#f3f4f6] shadow-[inset_0px_0px_10px_0px_rgba(0,0,0,0.02)]">
-              <img src={imgIcon} alt="" className="ml-[20px] h-[20px] w-[20px] shrink-0" />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="증상 검색"
-                className="ml-[12px] flex-1 w-full bg-transparent text-[16px] font-medium tracking-[-0.8px] text-[#111827] outline-none placeholder:text-[#d1d5db]"
-              />
-            </div>
-
-            {/* 검색 결과 */}
-            {search.trim() && (
-              <div className="mt-[12px] flex flex-wrap gap-[8px]">
-                {searchResults.length > 0 ? (
-                  searchResults.map((s) => (
-                    <button
-                      key={s}
-                      type="button"
-                      onClick={() => { toggle(s); setSearch(''); }}
-                      className={`flex h-[35px] items-center rounded-[17.5px] border px-[10px] text-[14px] font-medium tracking-[-0.7px] transition-colors ${
-                        selected.includes(s)
-                          ? 'border-[#296dff] bg-[#296dff] text-white'
-                          : 'border-[#111827] bg-white text-black'
-                      }`}
-                    >
-                      {s}
-                    </button>
-                  ))
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const label = search.trim();
-                      if (!selected.includes(label)) setSelected((p) => [...p, label]);
-                      setSearch('');
-                    }}
-                    className="flex h-[35px] items-center rounded-[17.5px] border border-[#296dff] bg-white px-[10px] text-[14px] font-medium tracking-[-0.7px] text-[#296dff]"
-                  >
-                    + "{search.trim()}" 직접 추가
-                  </button>
-                )}
-              </div>
-            )}
+            <p className="text-[20px] font-bold leading-[1.3] tracking-[-1px] text-[#111827] break-keep">증상 입력하기</p>
+            <p className="mb-[4px] text-[15px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6b7280]">
+              증상을 최대한 자세하게 입력해 주세요<br/>
+              (예: 언제부터, 어디가, 얼마나 아픈지)
+            </p>
+            <textarea
+              value={customText}
+              onChange={(e) => setCustomText(e.target.value)}
+              placeholder="내용을 입력해주세요"
+              rows={4}
+              className="w-full resize-none rounded-[10px] bg-[#f3f4f6] px-[20px] py-[16px] text-[16px] font-medium tracking-[-0.8px] text-[#111827] outline-none placeholder:text-[#6b7280]"
+            />
           </div>
 
           {/* Spacer */}

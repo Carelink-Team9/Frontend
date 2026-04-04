@@ -13,6 +13,7 @@ import SymptomInputScreen from './components/symptom/SymptomInputScreen'
 import SymptomLoadingScreen from './components/symptom/SymptomLoadingScreen'
 import SymptomResultScreen from './components/symptom/SymptomResultScreen'
 import MyPageScreen from './components/mypage/MyPageScreen'
+import HospitalVisitGuidePage from './components/hospital/HospitalVisitGuidePage'
 import './App.css'
 
 function App() {
@@ -112,6 +113,14 @@ function App() {
         element={
           <RequireAuth>
             <MyPageScreen />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/hospital-visit-guide"
+        element={
+          <RequireAuth>
+            <HospitalVisitGuidePage />
           </RequireAuth>
         }
       />

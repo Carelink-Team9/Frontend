@@ -1,12 +1,5 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from 'react';
-import { createUserSession, deleteUserSession, fetchUserSession } from '../api/userApi';
+import { createContext, useContext, useEffect, type ReactNode } from 'react';
+import { useAuthStore } from '../stores/authStore';
 
 type AuthContextValue = {
   isLoggedIn: boolean;
@@ -18,77 +11,36 @@ type AuthContextValue = {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isInitializing, setIsInitializing] = useState(true);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const isInitializing = useAuthStore((state) => state.isInitializing);
+  const initializeSession = useAuthStore((state) => state.initializeSession);
+  const login = useAuthStore((state) => state.login);
+  const logout = useAuthStore((state) => state.logout);
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function initializeSession() {
-      try {
-        await fetchUserSession();
-
-        if (!cancelled) {
-          setIsLoggedIn(true);
-        }
-      } catch (error) {
-        console.error('Failed to restore user session from /api/user/session.', error);
-
-        if (!cancelled) {
-          setIsLoggedIn(false);
-        }
-      } finally {
-        if (!cancelled) {
-          setIsInitializing(false);
-        }
-      }
-    }
-
     void initializeSession();
+  }, [initializeSession]);
 
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const login = useCallback(async (language: string) => {
-    try {
-      await createUserSession({
-        name: '홍길동',
-        language,
-      });
-
-      setIsLoggedIn(true);
-    } catch (error) {
-      console.error('Failed to create user session via /api/user.', error);
-      throw error;
-    }
-  }, []);
-
-  const logout = useCallback(async () => {
-    try {
-      await deleteUserSession();
-    } catch (error) {
-      console.error('Failed to delete user session via /api/user/session.', error);
-    } finally {
-      setIsLoggedIn(false);
-    }
-  }, []);
-
-  const value = {
-    isLoggedIn,
-    isInitializing,
-    login,
-    logout,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        isLoggedIn,
+        isInitializing,
+        login,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth(): AuthContextValue {
   const ctx = useContext(AuthContext);
+
   if (!ctx) {
-    throw new Error('useAuth는 AuthProvider 안에서만 사용할 수 있습니다.');
+    throw new Error('useAuth must be used within AuthProvider.');
   }
+
   return ctx;
 }
