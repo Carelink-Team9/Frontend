@@ -125,7 +125,18 @@ export default function PrescriptionResultScreen() {
       </div>
 
       <div className="mx-[32px] mb-[20px] h-[220px] overflow-hidden rounded-[10px] bg-[#f9f9fb] shadow-inner">
-        <img src={displayImage} alt={t('prescription.previewAlt')} className="h-full w-full object-contain py-[8px]" />
+        <img
+          src={displayImage}
+          alt={t('prescription.previewAlt')}
+          className="h-full w-full object-contain py-[8px]"
+          onError={(e) => {
+            if (localPreviewUrl && e.currentTarget.src !== localPreviewUrl) {
+              e.currentTarget.src = localPreviewUrl;
+            } else if (e.currentTarget.src !== imgFallback) {
+              e.currentTarget.src = imgFallback;
+            }
+          }}
+        />
       </div>
 
       <div className="mx-[32px] mb-[20px] rounded-[10px] bg-[#eaf0ff] px-[28px] py-[22px]">
