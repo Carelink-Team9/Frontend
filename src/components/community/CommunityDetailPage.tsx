@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { fetchCommunityComments, fetchCommunityPost } from '../../api/communityApi';
 import type { CommunityComment, CommunityPost } from '../../types/community';
@@ -24,7 +24,6 @@ function formatDate(value: string) {
 }
 
 export default function CommunityDetailPage() {
-  const navigate = useNavigate();
   const { postId } = useParams();
   const { i18n } = useTranslation();
   const currentLanguage = normalizeLanguage(i18n.resolvedLanguage);

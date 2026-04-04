@@ -1,29 +1,40 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import MobileContainer from '../layout/MobileContainer';
 import AppHeader from '../layout/AppHeader';
 
-const imgImg = 'https://www.figma.com/api/mcp/asset/e963a835-6155-4692-9f3b-8e8ae7b223c7';
-const imgCamera = 'https://www.figma.com/api/mcp/asset/dbb0eba5-edfc-4203-a001-3356b6a0d38f';
-const imgIconCheck = 'https://www.figma.com/api/mcp/asset/906017f2-f3ac-43e8-81d7-b66112bd99cd';
+const imgIconPicture = 'https://www.figma.com/api/mcp/asset/4203ac5d-db09-4469-8eee-5ada37368255';
+const imgIconCheck = 'https://www.figma.com/api/mcp/asset/5af20cae-35ab-4c36-81ad-2ad5a2ee05bf';
+const imgIconCamera = 'https://www.figma.com/api/mcp/asset/543a5674-ae46-4917-b8fd-e781c290de1f';
 
 export default function PrescriptionTranslatePage() {
   const navigate = useNavigate();
-  const [agreed, setAgreed] = useState(false);
+  const [showSheet, setShowSheet] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
+
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPreviewUrl(URL.createObjectURL(file));
+      setShowSheet(false);
+      navigate('/prescriptions/loading');
+    }
+  };
 
   return (
     <MobileContainer
       hasBottomNav
       header={
-        <AppHeader 
-          title="처방전 번역"
+        <AppHeader
+          title="처방전 스캔"
           rightElement={
             <div className="absolute right-[20px] flex h-[22px] items-center justify-center rounded-[11px] bg-[#296dff] px-[10px]">
               <span className="font-['SUIT',sans-serif] text-[12px] font-bold tracking-[-0.6px] text-white">
-                STEP 1 / 3
+                STEP 1 / 2
               </span>
             </div>
           }
@@ -32,88 +43,113 @@ export default function PrescriptionTranslatePage() {
     >
       <div className="flex flex-col gap-[20px] px-[20px] py-[20px]">
 
-          {/* Info card */}
-          <div className="flex h-[130px] items-center gap-[18px] rounded-[10px] border border-[#d1d5db] px-[24px]">
-            <div className="flex h-[84px] w-[84px] shrink-0 items-center justify-center rounded-[8px] bg-[#f9f9fb]">
-              <img src={imgImg} alt="" className="h-[46px] w-[46px] object-contain" />
+        {/* Info card */}
+        <div className="flex h-[130px] items-center gap-[18px] rounded-[10px] border border-[#d1d5db] px-[24px]">
+          <div className="flex h-[84px] w-[84px] shrink-0 items-center justify-center rounded-[8px] bg-[#f9f9fb]">
+            <img src={imgIconPicture} alt="" className="h-[46px] w-[46px] object-contain" />
+          </div>
+          <div className="flex flex-col items-start text-left gap-[6px]">
+            <p className="text-[18px] font-medium tracking-[-0.9px] text-[#111827]">처방전을 스캔하세요</p>
+            <p className="text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6b7280]">
+              AI가 처방전을 분석하여 약 정보와<br />복용방법을 번역해드립니다.
+            </p>
+          </div>
+        </div>
+
+        {/* Camera scan area */}
+        <div
+          className="relative flex h-[200px] cursor-pointer flex-col items-center justify-center rounded-[10px] border-[1.5px] border-dashed border-[#d1d5db] overflow-hidden"
+          onClick={() => setShowSheet(true)}
+        >
+          {previewUrl ? (
+            <img src={previewUrl} alt="처방전 미리보기" className="w-full h-full object-cover" />
+          ) : (
+            <>
+              {/* + indicator at top-left */}
+              <div className="absolute top-[-11px] left-[-11px] flex h-[22px] w-[22px] items-center justify-center rounded-full bg-[#296dff] text-white text-[16px] font-bold leading-none">
+                +
+              </div>
+              <div className="flex h-[120px] w-[120px] items-center justify-center rounded-[10px] bg-[#f3f4f6]">
+                <img src={imgIconCamera} alt="카메라" className="h-[38px] w-[49px] object-contain" />
+              </div>
+            </>
+          )}
+        </div>
+        <p className="text-center text-[18px] font-medium tracking-[-0.9px] text-[#111827] -mt-[8px]">
+          처방전을 프레임 안에 맞춰주세요.
+        </p>
+
+        {/* Tip card */}
+        <div className="rounded-[10px] bg-[#caffe8] px-[24px] py-[22px]">
+          <div className="flex items-center gap-[10px] mb-[10px]">
+            <img src={imgIconCheck} alt="" className="h-[20px] w-[20px] shrink-0" />
+            <p className="text-[20px] font-bold tracking-[-1px] text-[#111827]">촬영 Tip</p>
+          </div>
+          <ul className="list-disc pl-[20px] flex flex-col gap-[2px]">
+            <li className="text-[16px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">밝은 곳에서 촬영하세요.</li>
+            <li className="text-[16px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">처방전이 반듯하게 놓이도록 하세요.</li>
+            <li className="text-[16px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">글씨가 선명하게 보이도록 초점을 맞추세요.</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Hidden file inputs */}
+      <input
+        ref={cameraInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        className="hidden"
+        onChange={handleFileChange}
+      />
+      <input
+        ref={galleryInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleFileChange}
+      />
+
+      {/* iOS-style Action Sheet */}
+      {showSheet && (
+        <div
+          className="fixed inset-0 z-50 flex flex-col items-center justify-end pb-[34px] px-[8px] bg-black/20"
+          onClick={() => setShowSheet(false)}
+        >
+          <div
+            className="w-full max-w-[402px] flex flex-col gap-[8px]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Main buttons */}
+            <div className="w-full overflow-hidden rounded-[14px] backdrop-blur-[25px] bg-[rgba(179,179,179,0.85)]">
+              <div className="flex items-center justify-center border-b border-[rgba(128,128,128,0.55)] px-[16px] py-[13px]">
+                <p className="text-[13px] font-semibold text-[#3d3d3d] tracking-[-0.08px]">업로드 방식을 선택해 주세요</p>
+              </div>
+              <button
+                className="flex h-[56px] w-full items-center justify-center border-b border-[rgba(128,128,128,0.55)] text-[17px] text-[#007aff]"
+                onClick={() => cameraInputRef.current?.click()}
+              >
+                사진 촬영
+              </button>
+              <button
+                className="flex h-[56px] w-full items-center justify-center text-[17px] text-[#007aff]"
+                onClick={() => galleryInputRef.current?.click()}
+              >
+                갤러리에서 선택
+              </button>
             </div>
-            <div className="flex flex-col items-start text-left gap-[6px]">
-              <p className="text-[18px] font-medium tracking-[-0.9px] text-[#111827]">처방전을 스캔하세요</p>
-              <p className="text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6b7280]">
-                AI가 처방전을 분석하여 약 정보와<br />복용방법을 번역해드립니다.
-              </p>
+            {/* Cancel */}
+            <div className="w-full overflow-hidden rounded-[14px] backdrop-blur-[25px] bg-[rgba(153,153,153,0.97)]">
+              <button
+                className="flex h-[56px] w-full items-center justify-center text-[17px] font-semibold text-[#007aff]"
+                onClick={() => setShowSheet(false)}
+              >
+                Cancel
+              </button>
             </div>
           </div>
-
-          {/* Camera scan area */}
-          <label className="flex h-[228px] cursor-pointer relative items-center justify-center rounded-[15px] border-[3px] border-dashed border-[#e6e7eb] overflow-hidden group">
-            <input 
-              type="file" 
-              accept="image/*" 
-              capture="environment" 
-              className="hidden" 
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  // 파일 상태 관리 또는 미리보기 URL 생성 가능
-                  setPreviewUrl(URL.createObjectURL(file));
-                  // setFile(file) <- 추후 백엔드로 넘겨줄 파일 객체
-                }
-              }} 
-            />
-            {previewUrl ? (
-              <img src={previewUrl} alt="처방전 미리보기" className="w-full h-full object-cover" />
-            ) : (
-              <div className="flex h-[122px] w-[136px] items-center justify-center rounded-[15px] border border-[#c9d9ed] bg-[#eaf5f9] transition-transform group-hover:scale-105">
-                <img src={imgCamera} alt="카메라" className="h-[61px] w-[63px]" />
-              </div>
-            )}
-          </label>
-
-          {/* Warning box */}
-          <label
-            className="flex w-full cursor-pointer items-center gap-[16px] rounded-[10px] bg-[#fff6db] px-[20px] py-[22px] text-left"
-            onClick={() => setAgreed((v) => !v)}
-          >
-            <div
-              className={`flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-[5px] border transition-colors ${
-                agreed ? 'border-[#296dff] bg-[#296dff]' : 'border-[#d1d5db] bg-white'
-              }`}
-            >
-              {agreed && (
-                <svg viewBox="0 0 16 16" fill="none" className="h-[14px] w-[14px]">
-                  <path d="M3 8l4 4 6-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              )}
-            </div>
-
-            <div className="flex flex-col items-start gap-[8px]">
-              <div className="flex items-center gap-[10px]">
-                <img src={imgIconCheck} alt="" className="h-[20px] w-[20px] shrink-0" />
-                <p className="text-[18px] font-bold tracking-[-0.9px] text-[#111827]">주의사항</p>
-              </div>
-              <p className="text-[14px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">
-                해당 안내는 증상 기반의 진료과 추천 정보이며,<br />의료적 진단이나 치료를 대체하지 않습니다.
-              </p>
-              <span className="text-[14px] font-bold tracking-[-0.8px] text-[#6b7280]">
-                네, 주의 사항을 확인했습니다.
-              </span>
-            </div>
-          </label>
-
-          {/* Next button */}
-          <button
-            type="button"
-            disabled={!agreed}
-            className={`h-[60px] w-full rounded-[10px] text-[18px] font-medium tracking-[-0.9px] transition-colors ${
-              agreed
-                ? 'bg-[#296dff] text-white cursor-pointer'
-                : 'bg-[#f9f9fb] text-[#d1d5db] cursor-not-allowed'
-            }`}
-          >
-            다음
-          </button>
-      </div>
+        </div>
+      )}
     </MobileContainer>
   );
 }

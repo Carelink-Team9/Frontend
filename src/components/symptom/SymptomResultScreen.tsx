@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import MobileContainer from '../layout/MobileContainer';
 import AppHeader from '../layout/AppHeader';
@@ -7,7 +7,6 @@ const imgIconCheck = 'https://www.figma.com/api/mcp/asset/805461ba-852c-4a15-b12
 const imgIconCheck1 = 'https://www.figma.com/api/mcp/asset/1e43820f-a101-4428-9dfd-26d60e5e98a1';
 
 export default function SymptomResultScreen() {
-  const navigate = useNavigate();
   const location = useLocation();
   const symptoms: string[] = (location.state as { symptoms?: string[] })?.symptoms ?? ['두통', '발열'];
   const [agreed, setAgreed] = useState(false);

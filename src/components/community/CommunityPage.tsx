@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { fetchCommunityPosts } from '../../api/communityApi';
 import type { CommunityPost } from '../../types/community';
@@ -25,7 +25,6 @@ function normalizeLanguage(language: string | undefined) {
 }
 
 export default function CommunityPage() {
-  const navigate = useNavigate();
   const { i18n } = useTranslation();
   const currentLanguage = normalizeLanguage(i18n.resolvedLanguage);
 
