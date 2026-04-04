@@ -13,8 +13,9 @@ export default function SymptomResultScreen() {
   const location = useLocation();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const state = location.state as { symptoms?: string[]; result?: DepartmentRecommendResponse | null };
+  const state = location.state as { symptoms?: string[]; customDescription?: string; result?: DepartmentRecommendResponse | null };
   const symptoms = state?.symptoms ?? [];
+  const customDescription = state?.customDescription;
   const result = state?.result ?? null;
   const [agreed, setAgreed] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -101,6 +102,11 @@ export default function SymptomResultScreen() {
                 <img src={imgIconCheck1} alt="" className="h-[8px] w-[8px]" />
               </div>
             ))}
+            {customDescription && (
+              <div className="flex min-h-[35px] max-w-full items-center rounded-[20px] bg-[#6b7280] px-[15px] py-[8px]">
+                <span className="break-words text-[14px] font-medium leading-[1.3] tracking-[-0.7px] text-white">{customDescription}</span>
+              </div>
+            )}
           </div>
         </div>
 

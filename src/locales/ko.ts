@@ -81,6 +81,9 @@ export const ko = {
     handwrittenNote: '의사 메모',
     retake: '다시 촬영',
     previewAlt: '처방전 미리보기',
+    chatbot: '챗봇 대화하기',
+    chatPlaceholder: '궁금한 점을 입력해주세요',
+    chatGreeting: '안녕하세요. 처방전에 대해 궁금한 점을 물어보세요.',
   },
   community: {
     title: '커뮤니티',

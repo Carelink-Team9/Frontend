@@ -16,9 +16,13 @@ export interface DepartmentRecommendResponse {
   alternatives: AlternativeDept[];
 }
 
-export async function recommendDepartment(symptoms: string[]): Promise<DepartmentRecommendResponse> {
+export async function recommendDepartment(
+  symptoms: string[],
+  customDescription?: string,
+): Promise<DepartmentRecommendResponse> {
   const { data } = await axios.post<DepartmentRecommendResponse>('/api/recommendations/department', {
     symptoms,
+    ...(customDescription ? { customDescription } : {}),
   });
   return data;
 }

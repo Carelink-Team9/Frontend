@@ -28,6 +28,12 @@ export default function HomeRoute() {
     }
   }, [showSplash]);
 
+  useEffect(() => {
+    if (isLoggedIn) return;
+    const storedLanguage = typeof window === 'undefined' ? null : window.localStorage.getItem(LANGUAGE_SELECTED_KEY);
+    setSelectedLanguage(storedLanguage);
+  }, [isLoggedIn]);
+
   if (showSplash) return <SplashScreen />;
   if (isInitializing) return <SplashScreen />;
   if (isLoggedIn) return <MainHomeScreen />;

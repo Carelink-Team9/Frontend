@@ -11,21 +11,23 @@ export default function SymptomLoadingScreen() {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
-  const symptoms: string[] = (location.state as { symptoms?: string[] })?.symptoms ?? [];
+  const state = location.state as { symptoms?: string[]; customDescription?: string } | null;
+  const symptoms: string[] = state?.symptoms ?? [];
+  const customDescription = state?.customDescription;
   const called = useRef(false);
 
   useEffect(() => {
     if (called.current) return;
     called.current = true;
 
-    recommendDepartment(symptoms)
+    recommendDepartment(symptoms, customDescription)
       .then((result) => {
-        navigate('/symptom-result', { state: { symptoms, result }, replace: true });
+        navigate('/symptom-result', { state: { symptoms, customDescription, result }, replace: true });
       })
       .catch(() => {
-        navigate('/symptom-result', { state: { symptoms, result: null }, replace: true });
+        navigate('/symptom-result', { state: { symptoms, customDescription, result: null }, replace: true });
       });
-  }, [navigate, symptoms]);
+  }, [navigate, symptoms, customDescription]);
 
   return (
     <MobileContainer
