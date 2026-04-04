@@ -1,15 +1,16 @@
 import { useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { uploadPrescription } from '../../api/prescriptionApi';
+import { usePrescriptionFlowStore } from '../../stores/prescriptionFlowStore';
 import MobileContainer from '../layout/MobileContainer';
 import AppHeader from '../layout/AppHeader';
-import { uploadPrescription } from '../../api/prescriptionApi';
 
 const imgCharacter = 'https://www.figma.com/api/mcp/asset/60f1a3c6-3b1e-40ff-b99f-2b3cf898816d';
 
 export default function PrescriptionLoadingScreen() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { file, previewUrl } = (location.state ?? {}) as { file?: File; previewUrl?: string };
+  const file = usePrescriptionFlowStore((state) => state.file);
+  const setPrescriptionId = usePrescriptionFlowStore((state) => state.setPrescriptionId);
   const hasCalledRef = useRef(false);
 
   useEffect(() => {
@@ -23,12 +24,13 @@ export default function PrescriptionLoadingScreen() {
 
     uploadPrescription(file)
       .then((prescriptionId) => {
-        navigate('/prescriptions/result', { state: { prescriptionId, previewUrl } });
+        setPrescriptionId(prescriptionId);
+        navigate('/prescriptions/result');
       })
       .catch(() => {
         navigate('/prescriptions/translate', { replace: true });
       });
-  }, []);  // eslint-disable-line react-hooks/exhaustive-deps
+  }, [file, navigate, setPrescriptionId]);
 
   return (
     <MobileContainer
@@ -48,12 +50,12 @@ export default function PrescriptionLoadingScreen() {
       <div className="flex flex-1 flex-col items-center justify-center gap-[16px]">
         <img
           src={imgCharacter}
-          alt="분석 중"
+          alt="loading"
           className="h-[30px] w-[30px] animate-spin"
           style={{ animationDuration: '1.2s' }}
         />
         <p className="text-[18px] font-medium tracking-[-0.9px] text-[#111827]">
-          AI가 처방전을 분석중이에요
+          AI가 처방전을 분석 중이에요
         </p>
       </div>
     </MobileContainer>

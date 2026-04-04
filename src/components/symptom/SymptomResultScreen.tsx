@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import MobileContainer from '../layout/MobileContainer';
 import AppHeader from '../layout/AppHeader';
@@ -8,6 +8,7 @@ const imgIconCheck1 = 'https://www.figma.com/api/mcp/asset/1e43820f-a101-4428-9d
 
 export default function SymptomResultScreen() {
   const location = useLocation();
+  const navigate = useNavigate();
   const symptoms: string[] = (location.state as { symptoms?: string[] })?.symptoms ?? ['두통', '발열'];
   const [agreed, setAgreed] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -57,13 +58,14 @@ export default function SymptomResultScreen() {
           <button
             type="button"
             disabled={!agreed}
+            onClick={() => agreed && navigate('/nearby-hospitals', { state: { symptoms } })}
             className={`h-[60px] w-full rounded-[10px] text-[18px] font-medium tracking-[-0.9px] transition-colors duration-300 ${
               agreed
                 ? 'bg-[#296dff] text-white shadow-[0px_4px_10px_0px_rgba(0,82,219,0.25)]'
                 : 'bg-[#f9f9fb] text-[#d1d5db] cursor-not-allowed'
             }`}
           >
-            진료 준비하기
+            병원 탐색하기
           </button>
         </div>
       }
