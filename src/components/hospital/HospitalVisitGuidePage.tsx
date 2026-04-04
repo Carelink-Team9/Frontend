@@ -71,43 +71,45 @@ export default function HospitalVisitGuidePage() {
             {/* 캡처 대상 카드 */}
             <div
               ref={cardRef}
-              className="overflow-hidden rounded-[20px] bg-white"
-              style={{ boxShadow: '0px 4px 20px rgba(41,109,255,0.15)' }}
+              className="overflow-hidden rounded-[16px] border border-[#e5e7eb] bg-white shadow-sm"
             >
               {/* 카드 헤더 */}
-              <div className="bg-[#296dff] px-[20px] py-[16px]">
+              <div className="bg-[#296dff] px-[20px] py-[20px]">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-[11px] font-medium tracking-[0.5px] text-[rgba(255,255,255,0.7)]">CARELINK</p>
-                    <p className="mt-[2px] text-[18px] font-bold tracking-[-0.9px] text-white">내 증상 요약 카드</p>
+                    <p className="text-[11px] font-semibold tracking-[0.5px] text-[rgba(255,255,255,0.8)]">CARELINK</p>
+                    <p className="mt-[4px] text-[20px] font-bold tracking-[-0.5px] text-white">내 증상 요약 카드</p>
                   </div>
                   {mainDepartment && (
-                    <div className="rounded-[20px] bg-[rgba(255,255,255,0.2)] px-[12px] py-[6px]">
-                      <p className="text-[13px] font-medium text-white">{mainDepartment}</p>
+                    <div className="rounded-[20px] bg-[rgba(255,255,255,0.2)] px-[14px] py-[6px]">
+                      <p className="text-[14px] font-bold text-white">{mainDepartment}</p>
                     </div>
                   )}
                 </div>
               </div>
 
               {/* 카드 본문 */}
-              <div className="bg-[#eff6ff] px-[20px] py-[18px]">
+              <div className="bg-[#f8f9fb] px-[20px] py-[28px]">
                 {doctorSummary ? (
-                  <p className="text-[14px] leading-[1.8] text-[#1e2939]">{doctorSummary}</p>
+                  <p className="text-[16px] leading-[1.7] tracking-[-0.3px] text-[#374151] font-medium break-keep">
+                    {doctorSummary}
+                  </p>
                 ) : (
-                  <ul className="flex flex-col gap-[10px]">
-                    {symptoms.map((s) => (
-                      <li key={s} className="flex items-center gap-[10px]">
-                        <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-[#296dff]" />
-                        <span className="text-[15px] font-medium leading-[1.5] text-[#1e2939]">{s}</span>
-                      </li>
+                  <div className="flex flex-col gap-[10px]">
+                    {symptoms.map((s, i) => (
+                      <p key={i} className="text-[16px] leading-[1.7] tracking-[-0.3px] text-[#374151] font-medium break-keep">
+                        {s}
+                      </p>
                     ))}
-                  </ul>
+                  </div>
                 )}
               </div>
 
               {/* 카드 푸터 */}
-              <div className="border-t border-[#dbeafe] bg-white px-[20px] py-[12px]">
-                <p className="text-[11px] text-[#93c5fd]">이 카드는 AI 증상 분석 결과이며 의료 진단을 대체하지 않습니다.</p>
+              <div className="border-t border-[#e5e7eb] bg-[#f8f9fb] px-[20px] pb-[20px] pt-[16px]">
+                <p className="text-center text-[12px] font-medium tracking-[-0.2px] text-[#9ca3af]">
+                  이 카드는 AI 증상 분석 결과이며 의료 진단을 대체하지 않습니다.
+                </p>
               </div>
             </div>
           </section>
