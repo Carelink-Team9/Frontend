@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { createUserSession, deleteUserSession, fetchUserSession } from '../api/userApi';
 
 const USER_LANGUAGE_KEY = 'care-link-user-language';
+const LANGUAGE_SELECTED_KEY = 'care-link-language-selected';
 
 type AuthStore = {
   isLoggedIn: boolean;
@@ -54,7 +55,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     } catch (error) {
       console.error('Failed to delete user session via /api/user/session.', error);
     } finally {
-      set({ isLoggedIn: false });
+      localStorage.removeItem(USER_LANGUAGE_KEY);
+      localStorage.removeItem(LANGUAGE_SELECTED_KEY);
+      set({ isLoggedIn: false, language: 'ko' });
     }
   },
 }));

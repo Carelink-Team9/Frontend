@@ -59,6 +59,20 @@ export async function fetchPrescriptionHistory(): Promise<PrescriptionSummary[]>
 }
 
 /**
+ * 처방전 챗봇에 메시지를 전송합니다.
+ */
+export async function sendPrescriptionChat(
+  prescriptionId: number,
+  message: string,
+): Promise<string> {
+  const { data } = await axios.post<{ answer: string }>(
+    `/api/prescriptions/${prescriptionId}/chat`,
+    { message },
+  );
+  return data.answer;
+}
+
+/**
  * 가장 최근 처방전 1건을 조회합니다 (홈 화면용).
  * 처방전이 없으면 null을 반환합니다.
  */

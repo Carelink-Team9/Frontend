@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import PrimaryButton from '../common/PrimaryButton';
@@ -6,7 +7,8 @@ import AppHeader from '../layout/AppHeader';
 
 export default function MyPageScreen() {
   const { logout } = useAuth();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <MobileContainer hasBottomNav={false} header={<AppHeader title={t('mypage.title')} />}>
@@ -14,8 +16,10 @@ export default function MyPageScreen() {
         <PrimaryButton
           variant="danger"
           className="h-[50px] text-[16px] font-bold"
-          onClick={() => {
-            void logout();
+          onClick={async () => {
+            await logout();
+            await i18n.changeLanguage('ko');
+            navigate('/', { replace: true });
           }}
         >
           {t('mypage.logout')}

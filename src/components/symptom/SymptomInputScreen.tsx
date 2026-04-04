@@ -22,8 +22,12 @@ export default function SymptomInputScreen() {
 
   const handleNext = () => {
     if (selected.length === 0 && !customText.trim()) return;
-    const symptoms = customText.trim() ? [...selected, customText.trim()] : selected;
-    navigate('/symptom-loading', { state: { symptoms } });
+    navigate('/symptom-loading', {
+      state: {
+        symptoms: selected,
+        customDescription: customText.trim() || undefined,
+      },
+    });
   };
 
   const canProceed = selected.length > 0 || Boolean(customText.trim());
