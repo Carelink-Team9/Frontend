@@ -7,6 +7,7 @@ import RequireAuth from './components/routing/RequireAuth'
 import PrescriptionListPage from './components/prescription/PrescriptionListPage'
 import PrescriptionTranslatePage from './components/prescription/PrescriptionTranslatePage'
 import PrescriptionLoadingScreen from './components/prescription/PrescriptionLoadingScreen'
+import PrescriptionResultScreen from './components/prescription/PrescriptionResultScreen'
 import SymptomInputScreen from './components/symptom/SymptomInputScreen'
 import SymptomLoadingScreen from './components/symptom/SymptomLoadingScreen'
 import SymptomResultScreen from './components/symptom/SymptomResultScreen'
@@ -46,6 +47,14 @@ function App() {
         element={
           <RequireAuth>
             <PrescriptionLoadingScreen />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/prescriptions/result"
+        element={
+          <RequireAuth>
+            <PrescriptionResultScreen />
           </RequireAuth>
         }
       />

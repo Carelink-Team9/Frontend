@@ -1,9 +1,20 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MobileContainer from '../layout/MobileContainer';
 import AppHeader from '../layout/AppHeader';
 
 const imgCharacter = 'https://www.figma.com/api/mcp/asset/60f1a3c6-3b1e-40ff-b99f-2b3cf898816d';
 
 export default function PrescriptionLoadingScreen() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate('/prescriptions/result');
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, [navigate]);
+
   return (
     <MobileContainer
       header={
