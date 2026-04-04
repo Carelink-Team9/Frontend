@@ -91,10 +91,7 @@ export default function PrescriptionResultScreen() {
     }
   };
 
-  let displayImage = result?.imageUrl ?? localPreviewUrl ?? imgFallback;
-  if (displayImage.startsWith('/uploads')) {
-    displayImage = `http://localhost:8080${displayImage}`;
-  }
+  const displayImage = result?.imageUrl ?? localPreviewUrl ?? imgFallback;
 
   const prescriptionDate = result?.createdAt ? formatDate(result.createdAt) : '-';
   const noInfoText = t('common.noInfo');

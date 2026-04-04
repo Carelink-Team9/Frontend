@@ -20,7 +20,7 @@ function formatDate(isoString: string): string {
 
 function resolveImageUrl(url: string | null): string {
   if (!url) return imgFallback;
-  if (url.startsWith('/uploads')) return `http://localhost:8080${url}`;
+  if (url.startsWith('/uploads')) return url;
   return url;
 }
 
