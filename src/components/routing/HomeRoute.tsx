@@ -6,13 +6,17 @@ import LanguageSelectScreen from '../language/LanguageSelectScreen';
 import NameInputScreen from '../onboarding/NameInputScreen';
 
 const SPLASH_DURATION_MS = 1800;
+const LANGUAGE_SELECTED_KEY = 'care-link-language-selected';
 
 export default function HomeRoute() {
   const { isLoggedIn, isInitializing, login } = useAuth();
   const [showSplash, setShowSplash] = useState(() => {
     return !sessionStorage.getItem('splashShown');
   });
-  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
+  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null;
+    return window.localStorage.getItem(LANGUAGE_SELECTED_KEY);
+  });
 
   useEffect(() => {
     if (showSplash) {
