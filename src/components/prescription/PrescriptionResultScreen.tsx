@@ -193,31 +193,68 @@ export default function PrescriptionResultScreen() {
 
                 <TextCard
                   title={t('prescription.description')}
-                  colorClass="text-[#272727]"
+                  icon={
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="16" x2="12" y2="12"></line>
+                      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                  }
+                  colorClass="text-[#3b82f6]"
                   bgClass="bg-[#eef8ff]"
                   value={safeText(drug.translatedContent, noInfoText)}
                 />
                 <TextCard
                   title={t('prescription.sideEffects')}
-                  colorClass="text-[#e05c5c]"
+                  icon={
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                      <line x1="12" y1="9" x2="12" y2="13"></line>
+                      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                  }
+                  colorClass="text-[#ef4444]"
                   bgClass="bg-[#fff4f4]"
                   value={safeText(drug.sideEffects, noInfoText)}
                 />
                 <TextCard
                   title={t('prescription.precautions')}
-                  colorClass="text-[#d97706]"
+                  icon={
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                  }
+                  colorClass="text-[#f59e0b]"
                   bgClass="bg-[#fffbea]"
                   value={safeText(drug.precautions, noInfoText)}
                 />
                 <TextCard
                   title={t('prescription.foodInteraction')}
-                  colorClass="text-[#16a34a]"
+                  icon={
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                      <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                      <line x1="6" y1="1" x2="6" y2="4"></line>
+                      <line x1="10" y1="1" x2="10" y2="4"></line>
+                      <line x1="14" y1="1" x2="14" y2="4"></line>
+                    </svg>
+                  }
+                  colorClass="text-[#10b981]"
                   bgClass="bg-[#f0fdf4]"
                   value={safeText(drug.foodInteraction, noInfoText)}
                 />
                 <TextCard
                   title={t('prescription.handwrittenNote')}
-                  colorClass="text-[#7c3aed]"
+                  icon={
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                      <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                  }
+                  colorClass="text-[#8b5cf6]"
                   bgClass="bg-[#f5f3ff]"
                   value={safeText(drug.handwrittenNote, noInfoText)}
                 />
@@ -404,21 +441,28 @@ function InfoCard({
 
 function TextCard({
   title,
+  icon,
   colorClass,
   bgClass,
   value,
 }: {
   title: string;
+  icon?: ReactNode;
   colorClass: string;
   bgClass: string;
   value: string;
 }) {
   return (
-    <div className={`mx-[20px] mb-[8px] flex flex-col items-start rounded-[8px] px-[16px] py-[12px] text-left ${bgClass}`}>
-      <div className="mb-[4px] flex items-center gap-[6px]">
-        <p className={`text-[14px] font-semibold tracking-[-0.7px] ${colorClass}`}>{title}</p>
+    <div className={`mx-[20px] mb-[8px] flex flex-col items-start rounded-[8px] px-[16px] py-[14px] text-left ${bgClass}`}>
+      <div className={`mb-[6px] flex items-center gap-[6px] ${colorClass}`}>
+        {icon ? (
+          <div className="flex shrink-0 items-center justify-center">
+            {icon}
+          </div>
+        ) : null}
+        <p className="text-[14px] font-semibold tracking-[-0.7px]">{title}</p>
       </div>
-      <p className="pl-[4px] text-[13px] font-medium leading-[1.6] tracking-[-0.6px] text-[#6d7281]">
+      <p className={`text-[13px] font-medium leading-[1.6] tracking-[-0.6px] text-[#6b7280] transition-all ${icon ? 'pl-[22px]' : 'pl-[4px]'}`}>
         {value}
       </p>
     </div>

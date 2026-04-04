@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://carelink.p-e.kr/api/:path*"
+    },
+    {
+      "source": "/uploads/:path*",
+      "destination": "https://carelink.p-e.kr/uploads/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
