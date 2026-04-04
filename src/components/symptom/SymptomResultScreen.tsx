@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import type { DepartmentRecommendResponse } from '../../api/symptomApi';
 import MobileContainer from '../layout/MobileContainer';
 import AppHeader from '../layout/AppHeader';
+import { getDepartmentDisplayLabel, getSymptomDisplayLabel, resolveSupportedLanguage } from './symptomLabels';
 
 const imgIconCheck = 'https://www.figma.com/api/mcp/asset/805461ba-852c-4a15-b122-f60a1d8b2d8c';
 const imgIconCheck1 = 'https://www.figma.com/api/mcp/asset/1e43820f-a101-4428-9dfd-26d60e5e98a1';
@@ -11,7 +12,7 @@ const imgIconCheck1 = 'https://www.figma.com/api/mcp/asset/1e43820f-a101-4428-9d
 export default function SymptomResultScreen() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const state = location.state as { symptoms?: string[]; result?: DepartmentRecommendResponse | null };
   const symptoms = state?.symptoms ?? [];
   const result = state?.result ?? null;
@@ -45,6 +46,11 @@ export default function SymptomResultScreen() {
   };
 
   const main = result ?? fallbackResult;
+  const currentLanguage = resolveSupportedLanguage(i18n.resolvedLanguage);
+  const displayMainDepartment =
+    currentLanguage === 'ko'
+      ? main.mainDepartment
+      : main.translatedMainDepartment || getDepartmentDisplayLabel(main.mainDepartment, currentLanguage);
 
   return (
     <MobileContainer
@@ -90,8 +96,8 @@ export default function SymptomResultScreen() {
           <p className="text-left text-[18px] font-medium tracking-[-0.9px] text-[#111827]">{t('symptom.selectedSymptoms')}</p>
           <div className="flex w-full flex-wrap gap-[10px]">
             {symptoms.map((symptom) => (
-              <div key={symptom} className="flex h-[35px] items-center gap-[6px] rounded-[20px] bg-[#6b7280] px-[15px]">
-                <span className="text-[14px] font-medium tracking-[-0.7px] text-white">{symptom}</span>
+              <div key={symptom} className="flex min-h-[35px] max-w-full items-center gap-[6px] rounded-[20px] bg-[#6b7280] px-[15px] py-[8px]">
+                <span className="break-words text-[14px] font-medium leading-[1.3] tracking-[-0.7px] text-white">{getSymptomDisplayLabel(symptom, currentLanguage)}</span>
                 <img src={imgIconCheck1} alt="" className="h-[8px] w-[8px]" />
               </div>
             ))}
@@ -105,8 +111,8 @@ export default function SymptomResultScreen() {
           <div className="flex w-full flex-col items-start gap-[12px] rounded-[10px] bg-[rgba(41,109,255,0.1)] px-[24px] py-[24px]">
             <div className="flex w-full items-start justify-between">
               <div className="flex flex-col items-start gap-[12px]">
-                <p className="text-left text-[24px] font-bold leading-[1.3] tracking-[-1.2px] text-[#111827]">{main.mainDepartment}</p>
-                {main.translatedMainDepartment ? <p className="text-[14px] font-medium tracking-[-0.7px] text-[#6b7280]">{main.translatedMainDepartment}</p> : null}
+                <p className="text-left text-[24px] font-bold leading-[1.3] tracking-[-1.2px] text-[#111827]">{displayMainDepartment}</p>
+                {currentLanguage !== 'ko' && main.mainDepartment ? <p className="text-[14px] font-medium tracking-[-0.7px] text-[#6b7280]">{main.mainDepartment}</p> : null}
                 <div className="inline-flex h-[30px] items-center rounded-[10px] bg-[#296dff] px-[15px]">
                   <span className="text-[14px] font-medium tracking-[-0.7px] text-white">{t('symptom.bestMatch')}</span>
                 </div>
@@ -127,8 +133,12 @@ export default function SymptomResultScreen() {
                 <div key={alternative.departmentName} className="flex w-full flex-col items-start gap-[12px] rounded-[10px] border border-[#d1d5db] bg-white px-[24px] py-[24px]">
                   <div className="flex w-full items-start justify-between">
                     <div className="flex flex-col gap-[4px]">
-                      <p className="text-left text-[18px] font-bold leading-[1.3] tracking-[-0.9px] text-[#111827]">{alternative.departmentName}</p>
-                      {alternative.translatedDepartmentName ? <p className="text-[13px] font-medium tracking-[-0.7px] text-[#6b7280]">{alternative.translatedDepartmentName}</p> : null}
+                      <p className="text-left text-[18px] font-bold leading-[1.3] tracking-[-0.9px] text-[#111827]">
+                        {currentLanguage === 'ko'
+                          ? alternative.departmentName
+                          : alternative.translatedDepartmentName || getDepartmentDisplayLabel(alternative.departmentName, currentLanguage)}
+                      </p>
+                      {currentLanguage !== 'ko' && alternative.departmentName ? <p className="text-[13px] font-medium tracking-[-0.7px] text-[#6b7280]">{alternative.departmentName}</p> : null}
                     </div>
                     <div className="flex h-[35px] items-center rounded-[20px] bg-[#f3f4f6] px-[15px]">
                       <span className="text-[14px] font-medium tracking-[-0.7px] text-[#111827]">{alternative.confidence}%</span>
