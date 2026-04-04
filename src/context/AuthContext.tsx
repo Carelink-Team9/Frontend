@@ -4,7 +4,7 @@ import { useAuthStore } from '../stores/authStore';
 type AuthContextValue = {
   isLoggedIn: boolean;
   isInitializing: boolean;
-  login: (language: string) => Promise<void>;
+  login: (language: string, name: string) => Promise<void>;
   logout: () => Promise<void>;
 };
 

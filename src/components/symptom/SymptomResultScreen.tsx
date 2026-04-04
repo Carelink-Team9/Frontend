@@ -74,18 +74,17 @@ export default function SymptomResultScreen() {
                 },
               })
             }
-            className={`h-[60px] w-full rounded-[10px] text-[18px] font-medium tracking-[-0.9px] transition-colors duration-300 ${
-              agreed
+            className={`h-[60px] w-full rounded-[10px] text-[18px] font-medium tracking-[-0.9px] transition-colors duration-300 ${agreed
                 ? 'bg-[#296dff] text-white shadow-[0px_4px_10px_0px_rgba(0,82,219,0.25)]'
                 : 'bg-[#f9f9fb] text-[#d1d5db] cursor-not-allowed'
-            }`}
+              }`}
           >
-            병원 탐색하기
+            진료 병원 확인하기
           </button>
         </div>
       }
     >
-      <div className="flex flex-1 flex-col overflow-y-auto px-[20px] py-[24px] gap-[28px]">
+      <div className="flex flex-1 flex-col overflow-y-auto px-[32px] py-[24px] gap-[28px]">
 
         {/* AI 분석 완료 카드 */}
         <div className="flex flex-col items-start rounded-[10px] bg-[#c0ffe4] px-[24px] py-[24px] gap-[12px] w-full">
@@ -114,7 +113,7 @@ export default function SymptomResultScreen() {
           </div>
         </div>
 
-        <div className="h-[1px] -mx-[20px] bg-[#f9f9fb] py-[10px]" />
+        <div className="h-[1px] -mx-[32px] bg-[#f9f9fb] py-[10px]" />
 
         {/* AI 추천 진료과 */}
         <div className="flex flex-col items-start gap-[12px] w-full">
@@ -179,9 +178,8 @@ export default function SymptomResultScreen() {
         {/* 주의사항 */}
         <div className="relative mt-[10px]">
           <div
-            className={`absolute left-1/2 -top-[45px] z-10 flex min-w-[210px] -translate-x-1/2 items-center justify-center rounded-[8px] bg-[#111827] px-[16px] py-[10px] shadow-lg transition-opacity duration-1000 ${
-              showTooltip ? 'opacity-100' : 'opacity-0 pointer-events-none'
-            }`}
+            className={`absolute left-1/2 -top-[45px] z-10 flex min-w-[210px] -translate-x-1/2 items-center justify-center rounded-[8px] bg-[#111827] px-[16px] py-[10px] shadow-lg transition-opacity duration-1000 ${showTooltip ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
           >
             <span className="text-[14px] font-medium tracking-[-0.7px] text-white">주의사항을 읽고 체크해주세요</span>
             <div className="absolute -bottom-[4px] left-1/2 h-[10px] w-[10px] -translate-x-1/2 rotate-45 bg-[#111827]" />
@@ -193,9 +191,8 @@ export default function SymptomResultScreen() {
             onClick={() => setAgreed((v) => !v)}
           >
             <div
-              className={`flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-[5px] border transition-colors ${
-                agreed ? 'border-[#296dff] bg-[#296dff]' : 'border-[#d1d5db] bg-white'
-              }`}
+              className={`flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-[5px] border transition-colors ${agreed ? 'border-[#296dff] bg-[#296dff]' : 'border-[#d1d5db] bg-white'
+                }`}
             >
               {agreed && (
                 <svg viewBox="0 0 16 16" fill="none" className="h-[14px] w-[14px]">
