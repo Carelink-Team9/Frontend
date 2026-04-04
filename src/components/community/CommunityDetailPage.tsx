@@ -136,7 +136,7 @@ export default function CommunityDetailPage() {
           <div className="h-[20px] bg-[#f3f4f6]" />
 
           <div className="bg-white px-[32px] pb-[20px] pt-[20px] text-left">
-            <p className="mb-[20px] text-[18px] font-bold tracking-[-0.9px] text-[#111827]">{t('community.commentsCount', { count: comments.length })}</p>
+            <p className="mb-[20px] text-[18px] font-bold leading-[1.3] break-keep tracking-[-0.9px] text-[#111827]">{t('community.commentsCount', { count: comments.length })}</p>
             <div className="flex flex-col gap-[24px]">
               {comments.length === 0 ? (
                 <StatusMessage message={t('community.noComments')} className="py-[20px]" />
@@ -156,7 +156,7 @@ export default function CommunityDetailPage() {
                           <span className="mt-[2px] text-[13px] font-medium leading-[1.2] tracking-[-0.7px] text-[#8c929e]">{formatTimeAgo(comment.createdAt)}</span>
                         </div>
                       </div>
-                      <span className="shrink-0 rounded-[15px] bg-[#6b7280] px-[10px] py-[3px] text-[14px] font-medium tracking-[-0.7px] text-white">{t('community.commentTag')}</span>
+                      <span className="shrink-0 rounded-[15px] bg-[#6b7280] px-[10px] py-[3px] text-[14px] font-medium leading-[1.4] break-keep tracking-[-0.7px] text-white">{t('community.commentTag')}</span>
                     </div>
 
                     <p className="mt-[20px] whitespace-pre-wrap text-left text-[14px] font-medium leading-[1.7] tracking-[-0.7px] text-[#6b7280]">{comment.content}</p>

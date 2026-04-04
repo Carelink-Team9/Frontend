@@ -48,7 +48,7 @@ export default function CommunityWritePage() {
       }
     >
       <div className="border-b border-[#f3f4f6] px-[32px] pb-[20px] pt-[24px] text-left">
-        <p className="mb-[24px] text-[20px] font-bold tracking-[-1px] text-[#111827]">{t('community.category')}</p>
+        <p className="mb-[24px] text-[20px] font-bold leading-[1.3] break-keep tracking-[-1px] text-[#111827]">{t('community.category')}</p>
         <CommunityCategoryTabs
           selectedCategory={selectedCategory ?? 'ALL'}
           onSelect={(category) => {
@@ -62,7 +62,7 @@ export default function CommunityWritePage() {
 
       <div className="flex flex-col gap-[32px] px-[32px] pt-[20px] text-left">
         <div className="flex flex-col gap-[16px]">
-          <p className="text-[18px] font-bold tracking-[-0.9px] text-[#111827]">{t('community.titleLabel')}</p>
+          <p className="text-[18px] font-bold leading-[1.3] break-keep tracking-[-0.9px] text-[#111827]">{t('community.titleLabel')}</p>
           <input
             type="text"
             placeholder={t('community.titlePlaceholder')}
@@ -73,7 +73,7 @@ export default function CommunityWritePage() {
         </div>
 
         <div className="flex flex-col gap-[16px]">
-          <p className="text-[18px] font-bold tracking-[-0.9px] text-[#111827]">{t('community.contentLabel')}</p>
+          <p className="text-[18px] font-bold leading-[1.3] break-keep tracking-[-0.9px] text-[#111827]">{t('community.contentLabel')}</p>
           <textarea
             placeholder={t('community.contentPlaceholder')}
             value={content}

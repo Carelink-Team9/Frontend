@@ -134,29 +134,29 @@ export default function PrescriptionResultScreen() {
       <div className="mx-[32px] mb-[20px] rounded-[10px] bg-[#eaf0ff] px-[28px] py-[22px]">
         <div className="mb-[16px] flex items-center gap-[10px]">
           <img src={imgIconCheck} alt="" className="h-[20px] w-[20px] shrink-0" />
-          <p className="text-[18px] font-medium tracking-[-0.9px] text-[#111827]">{t('prescription.summary')}</p>
+          <p className="text-[18px] font-medium leading-[1.4] break-keep tracking-[-0.9px] text-[#111827]">{t('prescription.summary')}</p>
         </div>
         <div className="flex w-full gap-[40px]">
           <div className="flex flex-col items-start gap-[6px] text-left">
-            <p className="text-[14px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">
+            <p className="text-[14px] font-medium leading-[1.5] break-keep tracking-[-0.8px] text-[#6b7280]">
               {t('prescription.totalDrugCount')}
             </p>
-            <p className="text-[18px] font-bold tracking-[-0.9px] text-[#111827]">
+            <p className="text-[18px] font-bold leading-[1.4] break-keep tracking-[-0.9px] text-[#111827]">
               {loading ? '...' : t('prescription.medicineCount', { count: result?.drugs.length ?? 0 })}
             </p>
           </div>
           <div className="flex flex-col items-start gap-[6px] text-left">
-            <p className="text-[14px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">
+            <p className="text-[14px] font-medium leading-[1.5] break-keep tracking-[-0.8px] text-[#6b7280]">
               {t('prescription.prescribedDate')}
             </p>
-            <p className="text-[18px] font-bold tracking-[-0.9px] text-[#111827]">
+            <p className="text-[18px] font-bold leading-[1.4] break-keep tracking-[-0.9px] text-[#111827]">
               {loading ? '...' : prescriptionDate}
             </p>
           </div>
         </div>
       </div>
 
-      <p className="px-[32px] pb-[16px] text-left text-[18px] font-medium tracking-[-0.9px] text-[#111827]">
+      <p className="px-[32px] pb-[16px] text-left text-[18px] font-medium leading-[1.4] break-keep tracking-[-0.9px] text-[#111827]">
         {t('prescription.drugList')}
       </p>
 

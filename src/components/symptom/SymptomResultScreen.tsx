@@ -94,7 +94,7 @@ export default function SymptomResultScreen() {
         </div>
 
         <div className="flex w-full flex-col items-start gap-[12px]">
-          <p className="text-left text-[18px] font-medium tracking-[-0.9px] text-[#111827]">{t('symptom.selectedSymptoms')}</p>
+          <p className="text-left text-[18px] font-medium leading-[1.4] break-keep tracking-[-0.9px] text-[#111827]">{t('symptom.selectedSymptoms')}</p>
           <div className="flex w-full flex-wrap gap-[10px]">
             {symptoms.map((symptom) => (
               <div key={symptom} className="flex min-h-[35px] max-w-full items-center gap-[6px] rounded-[20px] bg-[#6b7280] px-[15px] py-[8px]">
@@ -113,7 +113,7 @@ export default function SymptomResultScreen() {
         <div className="h-[1px] -mx-[32px] bg-[#f9f9fb] py-[10px]" />
 
         <div className="flex w-full flex-col items-start gap-[12px]">
-          <p className="text-left text-[18px] font-medium tracking-[-0.9px] text-[#111827]">{t('symptom.recommendedDepartment')}</p>
+          <p className="text-left text-[18px] font-medium leading-[1.4] break-keep tracking-[-0.9px] text-[#111827]">{t('symptom.recommendedDepartment')}</p>
           <div className="flex w-full flex-col items-start gap-[12px] rounded-[10px] bg-[rgba(41,109,255,0.1)] px-[24px] py-[24px]">
             <div className="flex w-full items-start justify-between">
               <div className="flex flex-col items-start gap-[12px]">
@@ -133,7 +133,7 @@ export default function SymptomResultScreen() {
 
         {main.alternatives.length > 0 ? (
           <div className="flex w-full flex-col items-start gap-[12px]">
-            <p className="text-left text-[18px] font-medium tracking-[-0.9px] text-[#111827]">{t('symptom.alternativeDepartments')}</p>
+            <p className="text-left text-[18px] font-medium leading-[1.4] break-keep tracking-[-0.9px] text-[#111827]">{t('symptom.alternativeDepartments')}</p>
             <div className="flex w-full flex-col gap-[12px]">
               {main.alternatives.map((alternative) => (
                 <div key={alternative.departmentName} className="flex w-full flex-col items-start gap-[12px] rounded-[10px] border border-[#d1d5db] bg-white px-[24px] py-[24px]">
@@ -171,9 +171,9 @@ export default function SymptomResultScreen() {
               ) : null}
             </div>
             <div className="flex flex-col items-start gap-[8px]">
-              <p className="text-[18px] font-bold tracking-[-0.9px] text-[#111827]">{t('symptom.warningTitle')}</p>
-              <p className="text-[14px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">{t('symptom.warningBody')}</p>
-              <span className="text-[14px] font-bold tracking-[-0.8px] text-[#6b7280]">{t('symptom.warningAgree')}</span>
+              <p className="text-[18px] font-bold leading-[1.3] break-keep tracking-[-0.9px] text-[#111827]">{t('symptom.warningTitle')}</p>
+              <p className="text-[14px] font-medium leading-[1.5] break-keep tracking-[-0.8px] text-[#6b7280]">{t('symptom.warningBody')}</p>
+              <span className="text-[14px] font-bold leading-[1.4] break-keep tracking-[-0.8px] text-[#6b7280]">{t('symptom.warningAgree')}</span>
             </div>
           </label>
         </div>

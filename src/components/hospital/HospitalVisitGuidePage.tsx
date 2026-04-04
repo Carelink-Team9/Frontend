@@ -131,13 +131,13 @@ export default function HospitalVisitGuidePage() {
       <div className="flex flex-col gap-[32px] px-[24px] pb-[40px] pt-[24px] text-left">
         {(doctorSummary || symptoms.length > 0) ? (
           <section>
-            <h2 className="mb-[12px] text-[15px] font-bold text-black">0. {localized(language, copy.summary)}</h2>
+            <h2 className="mb-[12px] text-[15px] font-bold leading-[1.4] break-keep text-black">0. {localized(language, copy.summary)}</h2>
             <div ref={cardRef} className="overflow-hidden rounded-[16px] border border-[#e5e7eb] bg-white shadow-sm">
               <div className="bg-[#296dff] px-[20px] py-[20px]">
                 <div className="flex items-center justify-between gap-[12px]">
                   <div className="min-w-0">
                     <p className="text-[11px] font-semibold tracking-[0.5px] text-[rgba(255,255,255,0.8)]">CARELINK</p>
-                    <p className="mt-[4px] break-keep text-[20px] font-bold tracking-[-0.5px] text-white">{localized(language, copy.cardTitle)}</p>
+                    <p className="mt-[4px] break-keep text-[20px] font-bold leading-[1.3] tracking-[-0.5px] text-white">{localized(language, copy.cardTitle)}</p>
                   </div>
                   {mainDepartment ? (
                     <div className="rounded-[20px] bg-[rgba(255,255,255,0.2)] px-[14px] py-[6px]">
@@ -169,13 +169,13 @@ export default function HospitalVisitGuidePage() {
         ) : null}
 
         <section>
-          <h2 className="mb-[16px] text-[15px] font-bold text-black">1. {localized(language, copy.preparations)}</h2>
+          <h2 className="mb-[16px] text-[15px] font-bold leading-[1.4] break-keep text-black">1. {localized(language, copy.preparations)}</h2>
           <div className="flex flex-col gap-[16px]">
             {preparationCards.map((card, index) => (
               <div key={index} className="rounded-[12px] border border-[#296dff] bg-white p-[16px]">
                 <div className="mb-[12px] flex items-center gap-[8px]">
                   <img src={card.icon} alt="" className="h-[20px] w-[20px]" />
-                  <span className="text-[16px] font-semibold text-[#0a0a0a]">{localized(language, card.title)}</span>
+                  <span className="text-[16px] font-semibold leading-[1.3] break-keep text-[#0a0a0a]">{localized(language, card.title)}</span>
                   <span className={`rounded-full px-[8px] py-[2px] text-[10px] font-semibold ${index < 2 ? 'bg-[#ffe2e2] text-[#c10007]' : 'bg-[#f3f4f6] text-[#4a5565]'}`}>
                     {localized(language, card.badge)}
                   </span>
@@ -189,7 +189,7 @@ export default function HospitalVisitGuidePage() {
         <div className="h-px bg-[#e5e7eb]" />
 
         <section>
-          <h2 className="mb-[20px] text-[15px] font-bold text-black">2. {localized(language, copy.hospitalFlow)}</h2>
+          <h2 className="mb-[20px] text-[15px] font-bold leading-[1.4] break-keep text-black">2. {localized(language, copy.hospitalFlow)}</h2>
           <div className="relative mb-[24px] flex items-start justify-between">
             <div className="absolute left-[24px] right-[24px] top-[24px] h-[2px] bg-[#e5e7eb]" />
             <div className="absolute left-[24px] top-[24px] h-[2px] w-[72%] bg-[#155dfc]" />
@@ -203,7 +203,7 @@ export default function HospitalVisitGuidePage() {
             ))}
           </div>
           <div className="rounded-[16px] border border-[#fee685] bg-[#fffbeb] px-[16px] py-[20px]">
-            <p className="mb-[8px] text-[13px] font-semibold text-[#7b3306]">
+            <p className="mb-[8px] text-[13px] font-semibold leading-[1.4] break-keep text-[#7b3306]">
               {localized(language, {
                 ko: '약은 병원 밖 약국에서 받습니다.',
                 en: 'Medicines are collected at a pharmacy outside the hospital.',
@@ -231,7 +231,7 @@ export default function HospitalVisitGuidePage() {
         <div className="h-px bg-[#e5e7eb]" />
 
         <section>
-          <h2 className="mb-[16px] text-[20px] font-bold text-[#0a0a0a]">3. {localized(language, copy.checklist)}</h2>
+          <h2 className="mb-[16px] text-[20px] font-bold leading-[1.3] break-keep text-[#0a0a0a]">3. {localized(language, copy.checklist)}</h2>
           <div className="flex flex-col gap-[12px]">
             {alerts.map((alert, index) => (
               <div key={index} className={`rounded-[14px] border px-[14px] py-[14px] ${alert.bg}`}>
@@ -240,8 +240,8 @@ export default function HospitalVisitGuidePage() {
                     <img src={alert.icon} alt="" className="h-[20px] w-[20px]" />
                   </div>
                   <div>
-                    <p className={`mb-[4px] text-[12px] font-semibold ${alert.titleClass}`}>{localized(language, alert.title)}</p>
-                    <p className={`text-[10px] leading-[1.8] ${alert.bodyClass}`}>{localized(language, alert.body)}</p>
+                    <p className={`mb-[4px] text-[12px] font-semibold leading-[1.4] break-keep ${alert.titleClass}`}>{localized(language, alert.title)}</p>
+                    <p className={`text-[10px] leading-[1.8] break-keep ${alert.bodyClass}`}>{localized(language, alert.body)}</p>
                   </div>
                 </div>
               </div>
@@ -255,8 +255,8 @@ export default function HospitalVisitGuidePage() {
                   {tip.icon}
                 </div>
                 <div className="flex flex-col gap-[2px]">
-                  <p className="text-[10px] font-semibold text-[#4a5565]">{localized(language, tip.title)}</p>
-                  <p className="text-[10px] text-[#6a7282]">{localized(language, tip.body)}</p>
+                  <p className="text-[10px] font-semibold leading-[1.4] break-keep text-[#4a5565]">{localized(language, tip.title)}</p>
+                  <p className="text-[10px] leading-[1.5] text-[#6a7282]">{localized(language, tip.body)}</p>
                 </div>
               </div>
             ))}
