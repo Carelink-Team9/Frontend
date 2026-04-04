@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MobileContainer from '../layout/MobileContainer';
 import AppHeader from '../layout/AppHeader';
@@ -10,10 +10,13 @@ export default function PrescriptionLoadingScreen() {
   const navigate = useNavigate();
   const location = useLocation();
   const { file, previewUrl } = (location.state ?? {}) as { file?: File; previewUrl?: string };
+  const hasCalledRef = useRef(false);
 
   useEffect(() => {
+    if (hasCalledRef.current) return;
+    hasCalledRef.current = true;
+
     if (!file) {
-      // 파일 없이 직접 접근한 경우 처방전 스캔 화면으로 돌려보냄
       navigate('/prescriptions/translate', { replace: true });
       return;
     }
@@ -23,7 +26,6 @@ export default function PrescriptionLoadingScreen() {
         navigate('/prescriptions/result', { state: { prescriptionId, previewUrl } });
       })
       .catch(() => {
-        // 업로드 실패 시 스캔 화면으로 돌아감
         navigate('/prescriptions/translate', { replace: true });
       });
   }, []);  // eslint-disable-line react-hooks/exhaustive-deps

@@ -24,6 +24,15 @@ function formatDate(isoString: string): string {
   }
 }
 
+function ensureUnit(val: string, unit: string) {
+  if (!val) return '';
+  const trimmed = val.trim();
+  if (/[가-힣a-zA-Z]/.test(trimmed)) {
+    return trimmed;
+  }
+  return `${trimmed}${unit}`;
+}
+
 export default function PrescriptionResultScreen() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,7 +54,12 @@ export default function PrescriptionResultScreen() {
       .finally(() => setLoading(false));
   }, [prescriptionId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const displayImage = result?.imageUrl ?? localPreviewUrl ?? imgImg1;
+  let displayImage = result?.imageUrl ?? localPreviewUrl ?? imgImg1;
+  // 서버 경로(/uploads/...)인 경우 완전한 URL 부여
+  if (displayImage?.startsWith('/uploads')) {
+    displayImage = `http://localhost:8080${displayImage}`;
+  }
+
   const drugCount = result?.drugs.length ?? 0;
   const prescriptionDate = result?.createdAt ? formatDate(result.createdAt) : '-';
 
@@ -111,54 +125,63 @@ export default function PrescriptionResultScreen() {
       </p>
 
       <div className="flex flex-col gap-[16px] px-[32px]">
-        {result?.drugs.map((drug, index) => (
-          <div key={index} className="overflow-hidden rounded-[10px] border border-[#d1d5db]">
-            {/* 약 이름 */}
-            <div className="flex items-center gap-[14px] px-[20px] pb-[14px] pt-[20px]">
-              <img src={imgIconDrug} alt="" className="h-[50px] w-[50px] shrink-0" />
-              <div className="flex flex-1 flex-col items-start gap-[4px] text-left">
-                <div className="flex w-full items-start justify-between gap-[8px]">
-                  <p className="break-keep text-[20px] font-bold leading-[1.3] tracking-[-1px] text-[#111827]">
-                    {drug.drugName}
-                  </p>
-                  <img src={imgIconPen1} alt="수정" className="mt-[4px] h-[20px] w-[20px] shrink-0" />
+        {result?.drugs.map((drug, index) => {
+          const freqStr = ensureUnit(drug.frequency, '회');
+          const dosStr = ensureUnit(drug.dosage, '알');
+          const durStr = ensureUnit(drug.duration, '일분');
+          const usageStr = (freqStr && dosStr) ? `1일 ${freqStr}, 1회 ${dosStr}` : (freqStr || dosStr);
+
+          return (
+            <div key={index} className="overflow-hidden rounded-[10px] border border-[#d1d5db]">
+              {/* 약 이름 */}
+              <div className="flex items-center gap-[14px] px-[20px] pb-[14px] pt-[20px]">
+                <img src={imgIconDrug} alt="" className="h-[50px] w-[50px] shrink-0" />
+                <div className="flex flex-1 flex-col items-start gap-[4px] text-left">
+                  <div className="flex w-full items-start justify-between gap-[8px]">
+                    <p className="break-keep text-[20px] font-bold leading-[1.3] tracking-[-1px] text-[#111827]">
+                      {drug.drugName}
+                    </p>
+                    <img src={imgIconPen1} alt="수정" className="mt-[4px] h-[20px] w-[20px] shrink-0" />
+                  </div>
+                  {drug.originalName && (
+                    <p className="text-[12px] font-medium leading-[2] tracking-[-0.6px] text-[#888]">
+                      {drug.originalName}
+                    </p>
+                  )}
                 </div>
-                <p className="text-[12px] font-medium leading-[2] tracking-[-0.6px] text-[#888]">
-                  {drug.dosage}
+              </div>
+
+              {/* 복용 방법 */}
+              <div className="mx-[20px] mb-[8px] flex flex-col items-start rounded-[8px] bg-[#f0fdf8] px-[16px] py-[12px] text-left">
+                <div className="mb-[4px] flex items-center gap-[8px]">
+                  <img src={imgIconTime} alt="" className="h-[20px] w-[20px] shrink-0" />
+                  <p className="text-[16px] font-medium tracking-[-0.8px] text-[#272727]">복용 방법</p>
+                </div>
+                <p className="pl-[28px] text-left text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6d7281]">
+                  {usageStr}
                 </p>
               </div>
-            </div>
 
-            {/* 복용 방법 */}
-            <div className="mx-[20px] mb-[8px] flex flex-col items-start rounded-[8px] bg-[#f0fdf8] px-[16px] py-[12px] text-left">
-              <div className="mb-[4px] flex items-center gap-[8px]">
-                <img src={imgIconTime} alt="" className="h-[20px] w-[20px] shrink-0" />
-                <p className="text-[16px] font-medium tracking-[-0.8px] text-[#272727]">복용 방법</p>
+              {/* 주의사항 */}
+              <div className="mx-[20px] mb-[14px] flex flex-col items-start rounded-[8px] bg-[#fff4f3] px-[16px] py-[12px] text-left">
+                <div className="mb-[4px] flex items-center gap-[8px]">
+                  <img src={imgIconCaution} alt="" className="h-[20px] w-[20px] shrink-0" />
+                  <p className="text-[16px] font-medium tracking-[-0.8px] text-[#272727]">주의사항</p>
+                </div>
+                <p className="pl-[28px] text-left text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6d7281]">
+                  {drug.translatedContent}
+                </p>
               </div>
-              <p className="pl-[28px] text-left text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6d7281]">
-                {drug.frequency}
-              </p>
-            </div>
 
-            {/* 주의사항 */}
-            <div className="mx-[20px] mb-[14px] flex flex-col items-start rounded-[8px] bg-[#fff4f3] px-[16px] py-[12px] text-left">
-              <div className="mb-[4px] flex items-center gap-[8px]">
-                <img src={imgIconCaution} alt="" className="h-[20px] w-[20px] shrink-0" />
-                <p className="text-[16px] font-medium tracking-[-0.8px] text-[#272727]">주의사항</p>
+              {/* 투여일수 배지 */}
+              <div className="flex px-[20px] pb-[20px]">
+                <span className="inline-flex items-center rounded-[20px] bg-[#eaf2fe] px-[12px] py-[2px] text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#3f66c5]">
+                  {durStr}
+                </span>
               </div>
-              <p className="pl-[28px] text-left text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6d7281]">
-                {drug.translatedContent}
-              </p>
             </div>
-
-            {/* 투여일수 배지 */}
-            <div className="flex px-[20px] pb-[20px]">
-              <span className="inline-flex items-center rounded-[20px] bg-[#eaf2fe] px-[12px] py-[2px] text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#3f66c5]">
-                {drug.duration}
-              </span>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* ─── 다시 촬영 + 저장 버튼 ─── */}

@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export interface DrugDetail {
   drugName: string;
+  originalName: string | null;
   dosage: string;
   frequency: string;
   duration: string;
