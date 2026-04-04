@@ -20,7 +20,10 @@ const LIMIT = 20;
 export default function NearbyHospitals() {
   const navigate = useNavigate();
   const location = useLocation();
-  const symptoms: string[] = (location.state as { symptoms?: string[] })?.symptoms ?? [];
+  const state = location.state as { symptoms?: string[]; doctorSummary?: string; mainDepartment?: string } | null;
+  const symptoms: string[] = state?.symptoms ?? [];
+  const doctorSummary: string = state?.doctorSummary ?? '';
+  const mainDepartment: string = state?.mainDepartment ?? '';
   const { lat, lng, error: geoError, loading: geoLoading } = useGeolocation();
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
   const [filtered, setFiltered] = useState<Hospital[]>([]);
@@ -33,7 +36,7 @@ export default function NearbyHospitals() {
     if (!lat || !lng) return;
     setFetching(true);
     setFetchError(null);
-    fetchNearbyHospitals(lat, lng, RADIUS_KM, LIMIT)
+    fetchNearbyHospitals(lat, lng, RADIUS_KM, LIMIT, mainDepartment || undefined)
       .then((data) => {
         setHospitals(data);
         setFiltered(data);
@@ -70,7 +73,7 @@ export default function NearbyHospitals() {
         <div className="rounded-tl-[10px] rounded-tr-[10px] bg-white px-[32px] pb-[20px] pt-[20px] shadow-[0px_-4px_10px_0px_rgba(209,213,219,0.35)]">
           <button
             type="button"
-            onClick={() => navigate('/hospital-visit-guide', { state: { symptoms } })}
+            onClick={() => navigate('/hospital-visit-guide', { state: { symptoms, doctorSummary, mainDepartment } })}
             className="flex h-[60px] w-full items-center justify-center rounded-[10px] bg-[#296dff] shadow-[0px_4px_10px_0px_rgba(0,82,219,0.25)] transition-colors duration-300"
           >
             <span className="text-[18px] font-medium tracking-[-0.9px] text-white">진료 준비하기</span>
@@ -79,12 +82,20 @@ export default function NearbyHospitals() {
       }
     >
       {/* 타이틀 */}
-      <div className="flex items-start justify-between px-[32px] pt-[24px]">
+      <div className="flex items-start justify-between px-[32px] pt-[24px] text-left">
         <div>
           <h1 className="text-[28px] font-medium tracking-[-1.4px] text-[#111827]">내 근처 병원</h1>
           <p className="mt-[6px] text-[14px] font-medium tracking-[-0.7px] text-[#6b7280]">
             {`반경 ${RADIUS_KM}km  ·  최대 ${LIMIT}개`}
           </p>
+          {mainDepartment && (
+            <div className="mt-[8px] inline-flex items-center gap-[6px] rounded-[20px] bg-[rgba(41,109,255,0.1)] px-[12px] py-[4px]">
+              <span className="h-[6px] w-[6px] rounded-full bg-[#296dff]" />
+              <span className="text-[13px] font-medium tracking-[-0.6px] text-[#296dff]">
+                AI 추천: {mainDepartment}
+              </span>
+            </div>
+          )}
         </div>
         <button
           type="button"
@@ -113,7 +124,7 @@ export default function NearbyHospitals() {
       <div className="mt-[20px] h-[20px] bg-[#f9f9fb]" />
 
       {/* 병원 목록 */}
-      <div className="flex flex-col items-center gap-[20px] px-[32px] py-[20px]">
+      <div className="flex flex-col gap-[20px] px-[32px] py-[20px] text-left">
         {geoLoading || fetching ? (
           <StatusMessage message="불러오는 중..." />
         ) : geoError || fetchError ? (
@@ -130,7 +141,7 @@ export default function NearbyHospitals() {
 
 function HospitalCard({ hospital: h }: { hospital: Hospital }) {
   return (
-    <div className="w-full rounded-[10px] bg-[#f9f9fb] p-[20px] shadow-[0px_4px_10px_0px_#d1d5db]">
+    <div className="w-full rounded-[10px] bg-[#f9f9fb] p-[20px] shadow-[0px_4px_10px_0px_#d1d5db] text-left">
       {/* 이름 + 거리 */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-[10px]">
