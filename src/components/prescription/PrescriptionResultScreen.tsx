@@ -25,11 +25,6 @@ function formatDate(isoString: string): string {
   return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 }
 
-function ensureUnit(value: string, unit: string): string {
-  if (!value) return '';
-  const trimmed = value.trim();
-  return /[가-힣a-zA-Z]/.test(trimmed) ? trimmed : `${trimmed}${unit}`;
-}
 
 function safeText(value: string | null | undefined, fallback: string): string {
   if (!value || value === 'null' || value.trim() === '') return fallback;
@@ -170,9 +165,9 @@ export default function PrescriptionResultScreen() {
           <StatusMessage message={t('common.loading')} className="py-[20px]" />
         ) : (
           result?.drugs.map((drug, index) => {
-            const freqStr = ensureUnit(drug.frequency, '회');
-            const dosStr = ensureUnit(drug.dosage, '정');
-            const durStr = ensureUnit(drug.duration, '일');
+            const freqStr = drug.frequency || '';
+            const dosStr = drug.dosage || '';
+            const durStr = drug.duration || '';
 
             return (
               <div key={index} className="overflow-hidden rounded-[10px] border border-[#d1d5db]">
