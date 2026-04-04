@@ -34,3 +34,25 @@ export async function fetchCommunityPost(
 
   return data.data;
 }
+
+export async function createPost(payload: {
+  title: string;
+  content: string;
+  language: string;
+  tag?: string;
+  category: string;
+}): Promise<CommunityPost> {
+  const { data } = await axios.post<ApiResponse<CommunityPost>>('/api/community/posts', payload);
+  return data.data;
+}
+
+export async function addComment(
+  postId: number,
+  payload: { content: string; language: string },
+): Promise<CommunityComment> {
+  const { data } = await axios.post<ApiResponse<CommunityComment>>(
+    `/api/community/posts/${postId}/comments`,
+    payload,
+  );
+  return data.data;
+}

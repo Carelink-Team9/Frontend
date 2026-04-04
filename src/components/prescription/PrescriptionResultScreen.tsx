@@ -128,8 +128,7 @@ export default function PrescriptionResultScreen() {
         {result?.drugs.map((drug, index) => {
           const freqStr = ensureUnit(drug.frequency, '회');
           const dosStr = ensureUnit(drug.dosage, '알');
-          const durStr = ensureUnit(drug.duration, '일분');
-          const usageStr = (freqStr && dosStr) ? `1일 ${freqStr}, 1회 ${dosStr}` : (freqStr || dosStr);
+          const durStr = ensureUnit(drug.duration, '일');
 
           return (
             <div key={index} className="overflow-hidden rounded-[10px] border border-[#d1d5db]">
@@ -157,16 +156,18 @@ export default function PrescriptionResultScreen() {
                   <img src={imgIconTime} alt="" className="h-[20px] w-[20px] shrink-0" />
                   <p className="text-[16px] font-medium tracking-[-0.8px] text-[#272727]">복용 방법</p>
                 </div>
-                <p className="pl-[28px] text-left text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6d7281]">
-                  {usageStr}
-                </p>
+                <div className="flex flex-col gap-[4px] pl-[28px] text-left text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6d7281]">
+                  <span>• 1회 투약량: {dosStr}</span>
+                  <span>• 1일 투여횟수: {freqStr}</span>
+                  <span>• 총 투약일수: {durStr}</span>
+                </div>
               </div>
 
-              {/* 주의사항 */}
-              <div className="mx-[20px] mb-[14px] flex flex-col items-start rounded-[8px] bg-[#fff4f3] px-[16px] py-[12px] text-left">
+              {/* 설명 */}
+              <div className="mx-[20px] mb-[14px] flex flex-col items-start rounded-[8px] bg-[#eef8ff] px-[16px] py-[12px] text-left">
                 <div className="mb-[4px] flex items-center gap-[8px]">
                   <img src={imgIconCaution} alt="" className="h-[20px] w-[20px] shrink-0" />
-                  <p className="text-[16px] font-medium tracking-[-0.8px] text-[#272727]">주의사항</p>
+                  <p className="text-[16px] font-medium tracking-[-0.8px] text-[#272727]">설명</p>
                 </div>
                 <p className="pl-[28px] text-left text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6d7281]">
                   {drug.translatedContent}
