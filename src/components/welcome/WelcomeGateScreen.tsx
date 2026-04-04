@@ -27,8 +27,8 @@ export default function WelcomeGateScreen() {
     i18n.changeLanguage(value);
   };
 
-  const handleLogin = () => {
-    login();
+  const handleLogin = async () => {
+    await login(lang);
     navigate('/', { replace: true });
   };
 
@@ -102,7 +102,9 @@ export default function WelcomeGateScreen() {
               fullWidth
               variant="contained"
               size="large"
-              onClick={handleLogin}
+              onClick={() => {
+                void handleLogin();
+              }}
               sx={{
                 mt: 6,
                 py: 1.75,

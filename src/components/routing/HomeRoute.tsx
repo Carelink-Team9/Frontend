@@ -7,7 +7,7 @@ import LanguageSelectScreen from '../language/LanguageSelectScreen';
 const SPLASH_DURATION_MS = 1800;
 
 export default function HomeRoute() {
-  const { isLoggedIn, login } = useAuth();
+  const { isLoggedIn, isInitializing, login } = useAuth();
   const [showSplash, setShowSplash] = useState(() => {
     return !sessionStorage.getItem('splashShown');
   });
@@ -23,6 +23,7 @@ export default function HomeRoute() {
   }, [showSplash]);
 
   if (showSplash) return <SplashScreen />;
+  if (isInitializing) return <SplashScreen />;
   if (!isLoggedIn) return <LanguageSelectScreen onComplete={login} />;
   return <MainHomeScreen />;
 }
