@@ -35,6 +35,11 @@ function ensureUnit(val: string, unit: string) {
   return `${trimmed}${unit}`;
 }
 
+function getSafeText(val?: string | null) {
+  if (!val || val === 'null' || val.trim() === '') return '없습니다.';
+  return val;
+}
+
 export default function PrescriptionResultScreen() {
   const navigate = useNavigate();
   const prescriptionId = usePrescriptionFlowStore((state) => state.prescriptionId);
@@ -102,25 +107,25 @@ export default function PrescriptionResultScreen() {
         </p>
       </div>
 
-      <div className="mx-[32px] mb-[20px] h-[200px] overflow-hidden rounded-[10px] bg-[#d1d5db]">
-        <img src={displayImage} alt="prescription" className="h-full w-full object-cover" />
+      <div className="mx-[32px] mb-[20px] h-[220px] shrink-0 overflow-hidden rounded-[10px] bg-[#f9f9fb] shadow-inner">
+        <img src={displayImage} alt="prescription" className="h-full w-full object-contain py-[8px]" />
       </div>
 
-      <div className="mx-[32px] mb-[20px] rounded-[10px] bg-[#eaf0ff] px-[28px] py-[22px]">
+      <div className="mx-[32px] mb-[20px] shrink-0 rounded-[10px] bg-[#eaf0ff] px-[28px] py-[22px]">
         <div className="mb-[16px] flex items-center gap-[10px]">
           <img src={imgIconCheck} alt="" className="h-[20px] w-[20px] shrink-0" />
           <p className="text-[18px] font-medium tracking-[-0.9px] text-[#111827]">처방 요약</p>
         </div>
-        <div className="flex gap-[40px]">
-          <div className="flex flex-col gap-[6px]">
-            <p className="text-[16px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">총 약 개수</p>
-            <p className="text-[18px] font-medium tracking-[-0.9px] text-[#111827]">
+        <div className="flex w-full gap-[40px]">
+          <div className="flex flex-col items-start gap-[6px] text-left">
+            <p className="text-[14px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">총 약 개수</p>
+            <p className="text-[18px] font-bold tracking-[-0.9px] text-[#111827]">
               {loading ? '...' : `${drugCount}개`}
             </p>
           </div>
-          <div className="flex flex-col gap-[6px]">
-            <p className="text-[16px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">처방일</p>
-            <p className="text-[18px] font-medium tracking-[-0.9px] text-[#111827]">
+          <div className="flex flex-col items-start gap-[6px] text-left">
+            <p className="text-[14px] font-medium leading-[1.5] tracking-[-0.8px] text-[#6b7280]">처방일</p>
+            <p className="text-[18px] font-bold tracking-[-0.9px] text-[#111827]">
               {loading ? '...' : prescriptionDate}
             </p>
           </div>
@@ -177,49 +182,49 @@ export default function PrescriptionResultScreen() {
                     <p className="text-[16px] font-medium tracking-[-0.8px] text-[#272727]">설명</p>
                   </div>
                   <p className="text-left text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6d7281] pl-[22px]">
-                    {drug.translatedContent}
+                    {getSafeText(drug.translatedContent)}
                   </p>
                 </div>
 
-                {drug.sideEffects && (
-                  <div className="mx-[20px] mb-[8px] flex flex-col items-start rounded-[8px] bg-[#fff4f4] px-[16px] py-[12px] text-left">
-                    <div className="mb-[4px] flex items-center gap-[6px]">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e05c5c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-                      <p className="text-[14px] font-semibold tracking-[-0.7px] text-[#e05c5c]">부작용</p>
-                    </div>
-                    <p className="text-[13px] font-medium leading-[1.6] tracking-[-0.6px] text-[#6d7281] pl-[22px]">{drug.sideEffects}</p>
+                <div className="mx-[20px] mb-[8px] flex flex-col items-start rounded-[8px] bg-[#fff4f4] px-[16px] py-[12px] text-left">
+                  <div className="mb-[4px] flex items-center gap-[6px]">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e05c5c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <p className="text-[14px] font-semibold tracking-[-0.7px] text-[#e05c5c]">부작용</p>
                   </div>
-                )}
+                  <p className="text-[13px] font-medium leading-[1.6] tracking-[-0.6px] text-[#6d7281] pl-[22px]">
+                    {getSafeText(drug.sideEffects)}
+                  </p>
+                </div>
 
-                {drug.precautions && (
-                  <div className="mx-[20px] mb-[8px] flex flex-col items-start rounded-[8px] bg-[#fffbea] px-[16px] py-[12px] text-left">
-                    <div className="mb-[4px] flex items-center gap-[6px]">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
-                      <p className="text-[14px] font-semibold tracking-[-0.7px] text-[#d97706]">주의사항</p>
-                    </div>
-                    <p className="text-[13px] font-medium leading-[1.6] tracking-[-0.6px] text-[#6d7281] pl-[22px]">{drug.precautions}</p>
+                <div className="mx-[20px] mb-[8px] flex flex-col items-start rounded-[8px] bg-[#fffbea] px-[16px] py-[12px] text-left">
+                  <div className="mb-[4px] flex items-center gap-[6px]">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+                    <p className="text-[14px] font-semibold tracking-[-0.7px] text-[#d97706]">주의사항</p>
                   </div>
-                )}
+                  <p className="text-[13px] font-medium leading-[1.6] tracking-[-0.6px] text-[#6d7281] pl-[22px]">
+                    {getSafeText(drug.precautions)}
+                  </p>
+                </div>
 
-                {drug.foodInteraction && (
-                  <div className="mx-[20px] mb-[8px] flex flex-col items-start rounded-[8px] bg-[#f0fdf4] px-[16px] py-[12px] text-left">
-                    <div className="mb-[4px] flex items-center gap-[6px]">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
-                      <p className="text-[14px] font-semibold tracking-[-0.7px] text-[#16a34a]">음식 주의</p>
-                    </div>
-                    <p className="text-[13px] font-medium leading-[1.6] tracking-[-0.6px] text-[#6d7281] pl-[22px]">{drug.foodInteraction}</p>
+                <div className="mx-[20px] mb-[8px] flex flex-col items-start rounded-[8px] bg-[#f0fdf4] px-[16px] py-[12px] text-left">
+                  <div className="mb-[4px] flex items-center gap-[6px]">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+                    <p className="text-[14px] font-semibold tracking-[-0.7px] text-[#16a34a]">음식 주의</p>
                   </div>
-                )}
+                  <p className="text-[13px] font-medium leading-[1.6] tracking-[-0.6px] text-[#6d7281] pl-[22px]">
+                    {getSafeText(drug.foodInteraction)}
+                  </p>
+                </div>
 
-                {drug.handwrittenNote && (
-                  <div className="mx-[20px] mb-[8px] flex flex-col items-start rounded-[8px] bg-[#f5f3ff] px-[16px] py-[12px] text-left">
-                    <div className="mb-[4px] flex items-center gap-[6px]">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-                      <p className="text-[14px] font-semibold tracking-[-0.7px] text-[#7c3aed]">의사 메모</p>
-                    </div>
-                    <p className="text-[13px] font-medium leading-[1.6] tracking-[-0.6px] text-[#6d7281] pl-[22px]">{drug.handwrittenNote}</p>
+                <div className="mx-[20px] mb-[8px] flex flex-col items-start rounded-[8px] bg-[#f5f3ff] px-[16px] py-[12px] text-left">
+                  <div className="mb-[4px] flex items-center gap-[6px]">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                    <p className="text-[14px] font-semibold tracking-[-0.7px] text-[#7c3aed]">의사 메모</p>
                   </div>
-                )}
+                  <p className="text-[13px] font-medium leading-[1.6] tracking-[-0.6px] text-[#6d7281] pl-[22px]">
+                    {getSafeText(drug.handwrittenNote)}
+                  </p>
+                </div>
 
                 <div className="flex px-[20px] pb-[20px] pt-[4px]">
                   <span className="inline-flex items-center rounded-[20px] bg-[#eaf2fe] px-[12px] py-[2px] text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#3f66c5]">
