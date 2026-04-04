@@ -76,9 +76,9 @@ export default function NameInputScreen({ onComplete }: Props) {
   return (
     <div className="flex min-h-svh w-full justify-center bg-[#f3f4f6]">
       <div className="flex min-h-svh w-full max-w-[402px] flex-col bg-white shadow-xl">
-        <div className="px-[23px] pt-[160px]">
-          <h1 className="text-[28px] font-medium tracking-[-1.4px] text-[#111]">{copy.title[lang]}</h1>
-          <p className="mt-[12px] text-[14px] font-medium tracking-[-0.7px] text-[#6b7280]">{copy.description[lang]}</p>
+        <div className="px-[23px] pt-[160px] text-center">
+          <h1 className="break-keep text-[28px] font-medium leading-[1.3] tracking-[-1.4px] text-[#111]">{copy.title[lang]}</h1>
+          <p className="mt-[12px] break-keep text-[14px] font-medium leading-[1.5] tracking-[-0.7px] text-[#6b7280]">{copy.description[lang]}</p>
         </div>
 
         <div className="mt-[32px] border-b border-t border-[#ecedf0] bg-[#fcfdfd] px-[20px] py-[20px]">
