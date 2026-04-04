@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { MOCK_PRESCRIPTIONS } from '../../data/mockPrescriptions';
 
 import MobileContainer from '../layout/MobileContainer';
@@ -26,7 +25,6 @@ function getMonthFilter(dateStr: string, filter: Filter): boolean {
 }
 
 export default function PrescriptionListPage() {
-  const navigate = useNavigate();
   const [filter, setFilter] = useState<Filter>('전체');
   const [search, setSearch] = useState('');
 

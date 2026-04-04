@@ -2,10 +2,13 @@ import { Route, Routes } from 'react-router-dom'
 import NearbyHospitals from './components/NearbyHospitals'
 import CommunityDetailPage from './components/community/CommunityDetailPage'
 import CommunityPage from './components/community/CommunityPage'
+import CommunityWritePage from './components/community/CommunityWritePage'
 import HomeRoute from './components/routing/HomeRoute'
 import RequireAuth from './components/routing/RequireAuth'
 import PrescriptionListPage from './components/prescription/PrescriptionListPage'
 import PrescriptionTranslatePage from './components/prescription/PrescriptionTranslatePage'
+import PrescriptionLoadingScreen from './components/prescription/PrescriptionLoadingScreen'
+import PrescriptionResultScreen from './components/prescription/PrescriptionResultScreen'
 import SymptomInputScreen from './components/symptom/SymptomInputScreen'
 import SymptomLoadingScreen from './components/symptom/SymptomLoadingScreen'
 import SymptomResultScreen from './components/symptom/SymptomResultScreen'
@@ -41,10 +44,34 @@ function App() {
         }
       />
       <Route
+        path="/prescriptions/loading"
+        element={
+          <RequireAuth>
+            <PrescriptionLoadingScreen />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/prescriptions/result"
+        element={
+          <RequireAuth>
+            <PrescriptionResultScreen />
+          </RequireAuth>
+        }
+      />
+      <Route
         path="/community"
         element={
           <RequireAuth>
             <CommunityPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/community/write"
+        element={
+          <RequireAuth>
+            <CommunityWritePage />
           </RequireAuth>
         }
       />
